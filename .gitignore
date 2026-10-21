@@ -5,3 +5,7 @@ web/dist-single/
 web/coverage/
 .DS_Store
 *.log
+/playground/.gradle/
+/playground/**/build/
+/playground/out/
+/playground/data/sftp/outbox/

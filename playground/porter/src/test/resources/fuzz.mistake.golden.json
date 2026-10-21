@@ -1,0 +1,607 @@
+{
+  "bindings" : "data/bindings.ai-mistake.json",
+  "domains" : {
+    "R01_MinimumScore" : {
+      "stringLiterals" : [ "DECLINE_LOW_SCORE" ],
+      "integerLiterals" : [ 580 ],
+      "fields" : {
+        "legacy.model.Applicant#creditScore" : [ 0, 579, 580, 581 ]
+      }
+    },
+    "R02_DebtToIncome" : {
+      "stringLiterals" : [ "DECLINE_DTI" ],
+      "integerLiterals" : [ 100, 12, 43 ],
+      "fields" : {
+        "legacy.model.Applicant#monthlyDebt" : [ 0, 99, 100, 101, 11, 12, 13, 42, 43, 44 ],
+        "legacy.model.Applicant#annualIncome" : [ 0, 99, 100, 101, 11, 12, 13, 42, 43, 44 ]
+      }
+    },
+    "R03_Unemployed" : {
+      "stringLiterals" : [ "U", "REFER_UNEMPLOYED" ],
+      "integerLiterals" : [ ],
+      "fields" : {
+        "legacy.model.Applicant#empStat" : [ "U", "REFER_UNEMPLOYED", "E", "S", "R", "", null ],
+        "legacy.model.LoanApplication#collateral" : [ false, true ]
+      }
+    },
+    "R04_LargeLoanCosigner" : {
+      "stringLiterals" : [ "REFER_COSIGNER" ],
+      "integerLiterals" : [ 500000, 1 ],
+      "fields" : {
+        "legacy.model.LoanApplication#amount" : [ 0, 499999, 500000, 500001, 1, 2 ],
+        "legacy.model.LoanApplication#coSigners" : [ [ ], [ "A" ], [ "A", "" ] ]
+      }
+    },
+    "R05_RestrictedCountry" : {
+      "stringLiterals" : [ "REFER_SANCTIONS_CHECK", "XA", "XB" ],
+      "integerLiterals" : [ ],
+      "fields" : {
+        "legacy.model.Applicant#country" : [ "REFER_SANCTIONS_CHECK", "XA", "XB", "", null ]
+      }
+    },
+    "R06_FastTrack" : {
+      "stringLiterals" : [ "E", "APPROVE_FAST_TRACK" ],
+      "integerLiterals" : [ 760, 50000 ],
+      "fields" : {
+        "legacy.model.Applicant#creditScore" : [ 0, 759, 760, 761, 49999, 50000, 50001 ],
+        "legacy.model.LoanApplication#amount" : [ 0, 759, 760, 761, 49999, 50000, 50001 ],
+        "legacy.model.Applicant#empStat" : [ "E", "APPROVE_FAST_TRACK", "S", "U", "R", "", null ]
+      }
+    },
+    "R07_MaxTerm" : {
+      "stringLiterals" : [ "DECLINE_TERM" ],
+      "integerLiterals" : [ 360 ],
+      "fields" : {
+        "legacy.model.LoanApplication#termMonths" : [ 0, 359, 360, 361 ]
+      }
+    },
+    "R08_SelfEmployedScore" : {
+      "stringLiterals" : [ "S", "REFER_SELF_EMPLOYED" ],
+      "integerLiterals" : [ 650 ],
+      "fields" : {
+        "legacy.model.Applicant#empStat" : [ "S", "REFER_SELF_EMPLOYED", "E", "U", "R", "", null ],
+        "legacy.model.Applicant#creditScore" : [ 0, 649, 650, 651 ]
+      }
+    },
+    "R09_RetiredTerm" : {
+      "stringLiterals" : [ "R", "REFER_RETIRED_TERM" ],
+      "integerLiterals" : [ 240 ],
+      "fields" : {
+        "legacy.model.Applicant#empStat" : [ "R", "REFER_RETIRED_TERM", "E", "S", "U", "", null ],
+        "legacy.model.LoanApplication#termMonths" : [ 0, 239, 240, 241 ]
+      }
+    },
+    "R10_ScoreBand" : {
+      "stringLiterals" : [ "BAND_A", "BAND_B", "BAND_C" ],
+      "integerLiterals" : [ 700, 620 ],
+      "fields" : {
+        "legacy.model.Applicant#creditScore" : [ 0, 699, 700, 701, 619, 620, 621 ]
+      }
+    }
+  },
+  "cases" : 791,
+  "disagreements" : [ {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 760,
+      "legacy.model.LoanApplication#amount" : 0,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 760,
+      "legacy.model.LoanApplication#amount" : 759,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 760,
+      "legacy.model.LoanApplication#amount" : 760,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 760,
+      "legacy.model.LoanApplication#amount" : 761,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 760,
+      "legacy.model.LoanApplication#amount" : 49999,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 760,
+      "legacy.model.LoanApplication#amount" : 50000,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 761,
+      "legacy.model.LoanApplication#amount" : 0,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 761,
+      "legacy.model.LoanApplication#amount" : 759,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 761,
+      "legacy.model.LoanApplication#amount" : 760,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 761,
+      "legacy.model.LoanApplication#amount" : 761,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 761,
+      "legacy.model.LoanApplication#amount" : 49999,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 761,
+      "legacy.model.LoanApplication#amount" : 50000,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 49999,
+      "legacy.model.LoanApplication#amount" : 0,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 49999,
+      "legacy.model.LoanApplication#amount" : 759,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 49999,
+      "legacy.model.LoanApplication#amount" : 760,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 49999,
+      "legacy.model.LoanApplication#amount" : 761,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 49999,
+      "legacy.model.LoanApplication#amount" : 49999,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 49999,
+      "legacy.model.LoanApplication#amount" : 50000,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50000,
+      "legacy.model.LoanApplication#amount" : 0,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50000,
+      "legacy.model.LoanApplication#amount" : 759,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50000,
+      "legacy.model.LoanApplication#amount" : 760,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50000,
+      "legacy.model.LoanApplication#amount" : 761,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50000,
+      "legacy.model.LoanApplication#amount" : 49999,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50000,
+      "legacy.model.LoanApplication#amount" : 50000,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50001,
+      "legacy.model.LoanApplication#amount" : 0,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50001,
+      "legacy.model.LoanApplication#amount" : 759,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50001,
+      "legacy.model.LoanApplication#amount" : 760,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50001,
+      "legacy.model.LoanApplication#amount" : 761,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50001,
+      "legacy.model.LoanApplication#amount" : 49999,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 50001,
+      "legacy.model.LoanApplication#amount" : 50000,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 49999,
+      "legacy.model.LoanApplication#amount" : 0,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 761,
+      "legacy.model.LoanApplication#amount" : 50000,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R06_FastTrack",
+    "input" : {
+      "legacy.model.Applicant#creditScore" : 49999,
+      "legacy.model.LoanApplication#amount" : 49999,
+      "legacy.model.Applicant#empStat" : "S"
+    },
+    "legacy" : {
+      "codes" : [ ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ "APPROVE_FAST_TRACK" ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R08_SelfEmployedScore",
+    "input" : {
+      "legacy.model.Applicant#empStat" : "S",
+      "legacy.model.Applicant#creditScore" : 0
+    },
+    "legacy" : {
+      "codes" : [ "REFER_SELF_EMPLOYED" ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ ],
+      "error" : ""
+    }
+  }, {
+    "rule" : "R08_SelfEmployedScore",
+    "input" : {
+      "legacy.model.Applicant#empStat" : "S",
+      "legacy.model.Applicant#creditScore" : 649
+    },
+    "legacy" : {
+      "codes" : [ "REFER_SELF_EMPLOYED" ],
+      "error" : ""
+    },
+    "modern" : {
+      "codes" : [ ],
+      "error" : ""
+    }
+  } ]
+}

@@ -1,0 +1,24 @@
+{
+  "id": "A-1003",
+  "applicant": {
+    "applicantId": "P-1003",
+    "fullName": "Lena Novak",
+    "income": {
+      "annual": 60000,
+      "currency": "USD"
+    },
+    "employment": "SELF_EMPLOYED",
+    "debts": {
+      "monthlyTotal": 2400
+    },
+    "residence": {
+      "countryCode": "CA"
+    }
+  },
+  "request": {
+    "principal": 200000,
+    "termMonths": 300,
+    "secured": true
+  },
+  "guarantors": []
+}

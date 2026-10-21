@@ -1,0 +1,24 @@
+{
+  "id": "A-1001",
+  "applicant": {
+    "applicantId": "P-1001",
+    "fullName": "Maya Chen",
+    "income": {
+      "annual": 96000,
+      "currency": "USD"
+    },
+    "employment": "EMPLOYED",
+    "debts": {
+      "monthlyTotal": 1200
+    },
+    "residence": {
+      "countryCode": "US"
+    }
+  },
+  "request": {
+    "principal": 45000,
+    "termMonths": 60,
+    "secured": false
+  },
+  "guarantors": []
+}

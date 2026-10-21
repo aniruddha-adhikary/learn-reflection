@@ -1,0 +1,5 @@
+[
+  {"ruleId":"bad","legacyRule":"bad","family":"bad","emit":"bad-code","when":{"read":"unknown.metric"}},
+  {"ruleId":"bad2","legacyRule":"bad2","family":"bad","emit":"NOT-VALID","when":{"cmp":"approx","l":{"int":1},"r":{"int":2}}},
+  {"ruleId":"bad3","legacyRule":"bad3","family":"bad","emit":"OK","when":{"enum":"UNKNOWN"}}
+]

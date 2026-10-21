@@ -1,0 +1,24 @@
+{
+  "id": "A-1007",
+  "applicant": {
+    "applicantId": "P-1007",
+    "fullName": "Ada Mensah",
+    "income": {
+      "annual": 0,
+      "currency": "USD"
+    },
+    "employment": "UNEMPLOYED",
+    "debts": {
+      "monthlyTotal": 500
+    },
+    "residence": {
+      "countryCode": "US"
+    }
+  },
+  "request": {
+    "principal": 10000,
+    "termMonths": 24,
+    "secured": true
+  },
+  "guarantors": []
+}
