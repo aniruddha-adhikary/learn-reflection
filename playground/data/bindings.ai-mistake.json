@@ -1,0 +1,48 @@
+{
+  "proposedBy": "llm",
+  "bindings": [
+    {
+      "legacy": "legacy.model.Applicant#creditScore",
+      "modern": "credit.score"
+    },
+    {
+      "legacy": "legacy.model.Applicant#annualIncome",
+      "modern": "income.annual"
+    },
+    {
+      "legacy": "legacy.model.Applicant#monthlyDebt",
+      "modern": "debt.monthly"
+    },
+    {
+      "legacy": "legacy.model.Applicant#empStat",
+      "modern": "employment",
+      "values": {
+        "E": "EMPLOYED",
+        "S": "EMPLOYED",
+        "U": "UNEMPLOYED",
+        "R": "RETIRED"
+      }
+    },
+    {
+      "legacy": "legacy.model.Applicant#country",
+      "modern": "residence.country"
+    },
+    {
+      "legacy": "legacy.model.LoanApplication#amount",
+      "modern": "loan.principal"
+    },
+    {
+      "legacy": "legacy.model.LoanApplication#termMonths",
+      "modern": "loan.term"
+    },
+    {
+      "legacy": "legacy.model.LoanApplication#collateral",
+      "modern": "loan.secured"
+    },
+    {
+      "legacy": "legacy.model.LoanApplication#coSigners",
+      "via": "size",
+      "modern": "guarantors.count"
+    }
+  ]
+}
