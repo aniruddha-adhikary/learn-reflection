@@ -1,4 +1,7 @@
 node_modules/
 dist/
+web/dist/
+web/dist-single/
+web/coverage/
 .DS_Store
 *.log
