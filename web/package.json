@@ -13,6 +13,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
+    "fixtures": "node scripts/generate-fixtures.mjs",
     "arch": "node scripts/check-architecture.mjs",
     "check": "npm run lint && npm run typecheck && npm run test && npm run arch"
   },

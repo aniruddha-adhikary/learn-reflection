@@ -1,0 +1,21 @@
+{
+  "internalName": "fixtures/ValueView",
+  "constantPoolKinds": [
+    null,
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "getValue",
+      "descriptor": "()I",
+      "instructions": []
+    }
+  ]
+}

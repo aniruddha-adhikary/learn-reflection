@@ -1,0 +1,23 @@
+{
+  "internalName": "fixtures/Transformer",
+  "constantPoolKinds": [
+    null,
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "transform",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "instructions": []
+    }
+  ]
+}

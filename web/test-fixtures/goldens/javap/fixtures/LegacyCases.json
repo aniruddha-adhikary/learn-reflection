@@ -1,0 +1,1233 @@
+{
+  "internalName": "fixtures/LegacyCases",
+  "constantPoolKinds": [
+    null,
+    "class",
+    "utf8",
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "string",
+    "utf8",
+    "fieldRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "integer",
+    "long",
+    null,
+    "long",
+    null,
+    "class",
+    "utf8",
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "invokeDynamic",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "string",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "string",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "class",
+    "utf8",
+    "methodRef",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "interfaceMethodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "interfaceMethodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "interfaceMethodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "interfaceMethodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "methodRef",
+    "string",
+    "utf8",
+    "interfaceMethodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "interfaceMethodRef",
+    "nameAndType",
+    "utf8",
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "long",
+    null,
+    "utf8",
+    "utf8",
+    "double",
+    null,
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "integer",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "integer",
+    "integer",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "methodHandle",
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "methodType",
+    "methodHandle",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "<init>",
+      "descriptor": "()V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "add",
+      "descriptor": "(II)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "iadd"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "overflow",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "longMath",
+      "descriptor": "(J)J",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "lload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "ldc2_w"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "lmul"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "ldc2_w"
+        },
+        {
+          "offset": 8,
+          "mnemonic": "lsub"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "lreturn"
+        }
+      ]
+    },
+    {
+      "name": "doubleMath",
+      "descriptor": "(DD)D",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "dload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "dload_2"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "ddiv"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "dload_0"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "dload_2"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "dmul"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "dadd"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "dreturn"
+        }
+      ]
+    },
+    {
+      "name": "tableSwitch",
+      "descriptor": "(I)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "tableswitch"
+        },
+        {
+          "offset": 28,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 30,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 33,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 35,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 38,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 40,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 43,
+          "mnemonic": "iconst_m1"
+        },
+        {
+          "offset": 44,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "lookupSwitch",
+      "descriptor": "(I)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "lookupswitch"
+        },
+        {
+          "offset": 44,
+          "mnemonic": "iconst_1"
+        },
+        {
+          "offset": 45,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 48,
+          "mnemonic": "iconst_2"
+        },
+        {
+          "offset": 49,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 52,
+          "mnemonic": "iconst_3"
+        },
+        {
+          "offset": 53,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 56,
+          "mnemonic": "iconst_4"
+        },
+        {
+          "offset": 57,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 60,
+          "mnemonic": "iconst_m1"
+        },
+        {
+          "offset": 61,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "branchMerge",
+      "descriptor": "(Z)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "ifeq"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "istore_1"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 12,
+          "mnemonic": "istore_1"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 14,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "uncaughtDivide",
+      "descriptor": "(I)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "idiv"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "caughtDivide",
+      "descriptor": "(I)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "idiv"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "ireturn"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "astore_1"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "iconst_m1"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "tryFinally",
+      "descriptor": "(I)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "istore_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "idiv"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "istore_1"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "iinc"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "astore_2"
+        },
+        {
+          "offset": 14,
+          "mnemonic": "iconst_m1"
+        },
+        {
+          "offset": 15,
+          "mnemonic": "istore_1"
+        },
+        {
+          "offset": 16,
+          "mnemonic": "iinc"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 22,
+          "mnemonic": "astore_3"
+        },
+        {
+          "offset": 23,
+          "mnemonic": "iinc"
+        },
+        {
+          "offset": 26,
+          "mnemonic": "aload_3"
+        },
+        {
+          "offset": 27,
+          "mnemonic": "athrow"
+        },
+        {
+          "offset": 28,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 29,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "nestedLoop",
+      "descriptor": "(I)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "istore_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "istore_2"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "if_icmpge"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "istore_3"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "iload_3"
+        },
+        {
+          "offset": 12,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "if_icmpge"
+        },
+        {
+          "offset": 16,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 17,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 18,
+          "mnemonic": "iadd"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "istore_1"
+        },
+        {
+          "offset": 20,
+          "mnemonic": "iinc"
+        },
+        {
+          "offset": 23,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 26,
+          "mnemonic": "iinc"
+        },
+        {
+          "offset": 29,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 32,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 33,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "nullCall",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "lambdaFactory",
+      "descriptor": "()Ljava/lang/Runnable;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "invokedynamic"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "declaredException",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "stringOps",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 12,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "unsupportedNative",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "iconst_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "builderOps",
+      "descriptor": "(Ljava/lang/String;I)Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "new"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "dup"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 8,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 14,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 17,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 20,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "listSum",
+      "descriptor": "(I)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "new"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "dup"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "astore_1"
+        },
+        {
+          "offset": 8,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "istore_2"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "iload_0"
+        },
+        {
+          "offset": 12,
+          "mnemonic": "if_icmpge"
+        },
+        {
+          "offset": 15,
+          "mnemonic": "aload_1"
+        },
+        {
+          "offset": 16,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 17,
+          "mnemonic": "invokestatic"
+        },
+        {
+          "offset": 20,
+          "mnemonic": "invokeinterface"
+        },
+        {
+          "offset": 25,
+          "mnemonic": "pop"
+        },
+        {
+          "offset": 26,
+          "mnemonic": "iinc"
+        },
+        {
+          "offset": 29,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 32,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 33,
+          "mnemonic": "istore_2"
+        },
+        {
+          "offset": 34,
+          "mnemonic": "aload_1"
+        },
+        {
+          "offset": 35,
+          "mnemonic": "invokeinterface"
+        },
+        {
+          "offset": 40,
+          "mnemonic": "astore_3"
+        },
+        {
+          "offset": 41,
+          "mnemonic": "aload_3"
+        },
+        {
+          "offset": 42,
+          "mnemonic": "invokeinterface"
+        },
+        {
+          "offset": 47,
+          "mnemonic": "ifeq"
+        },
+        {
+          "offset": 50,
+          "mnemonic": "aload_3"
+        },
+        {
+          "offset": 51,
+          "mnemonic": "invokeinterface"
+        },
+        {
+          "offset": 56,
+          "mnemonic": "checkcast"
+        },
+        {
+          "offset": 59,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 62,
+          "mnemonic": "istore"
+        },
+        {
+          "offset": 64,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 65,
+          "mnemonic": "iload"
+        },
+        {
+          "offset": 67,
+          "mnemonic": "iadd"
+        },
+        {
+          "offset": 68,
+          "mnemonic": "istore_2"
+        },
+        {
+          "offset": 69,
+          "mnemonic": "goto"
+        },
+        {
+          "offset": 72,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 73,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "mapValue",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "new"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "dup"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "astore_0"
+        },
+        {
+          "offset": 8,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "bipush"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "invokestatic"
+        },
+        {
+          "offset": 16,
+          "mnemonic": "invokeinterface"
+        },
+        {
+          "offset": 21,
+          "mnemonic": "pop"
+        },
+        {
+          "offset": 22,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 23,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 25,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 26,
+          "mnemonic": "invokestatic"
+        },
+        {
+          "offset": 29,
+          "mnemonic": "invokeinterface"
+        },
+        {
+          "offset": 34,
+          "mnemonic": "checkcast"
+        },
+        {
+          "offset": 37,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 40,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "arrayWrite",
+      "descriptor": "([IILfixtures/ValueHolder;)I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "aload_2"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "dup_x2"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "iastore"
+        },
+        {
+          "offset": 8,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "addValue",
+      "descriptor": "(Ljava/util/List;Lfixtures/ValueHolder;)V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "aload_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "invokeinterface"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "pop"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "annotatedParameter",
+      "descriptor": "(Ljava/lang/String;)Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "secret",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "lambda$lambdaFactory$0",
+      "descriptor": "()V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "return"
+        }
+      ]
+    }
+  ]
+}

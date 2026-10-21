@@ -1,0 +1,60 @@
+{
+  "internalName": "fixtures/Shape",
+  "constantPoolKinds": [
+    null,
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "<init>",
+      "descriptor": "()V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "area",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "ireturn"
+        }
+      ]
+    }
+  ]
+}

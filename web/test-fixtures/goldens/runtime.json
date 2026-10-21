@@ -1,0 +1,117 @@
+[
+  {
+    "method": "add",
+    "args": [
+      2,
+      3
+    ],
+    "result": 5
+  },
+  {
+    "method": "overflow",
+    "args": [],
+    "result": -2147483648
+  },
+  {
+    "method": "longMath",
+    "args": [
+      {
+        "$long": "9007199254740991"
+      }
+    ],
+    "result": {
+      "$long": "27021597764222971"
+    }
+  },
+  {
+    "method": "doubleMath",
+    "args": [
+      7.5,
+      2
+    ],
+    "result": 18.75
+  },
+  {
+    "method": "tableSwitch",
+    "args": [
+      2
+    ],
+    "result": 30
+  },
+  {
+    "method": "lookupSwitch",
+    "args": [
+      10000
+    ],
+    "result": 4
+  },
+  {
+    "method": "branchMerge",
+    "args": [
+      true
+    ],
+    "result": 10
+  },
+  {
+    "method": "uncaughtDivide",
+    "args": [
+      0
+    ],
+    "threw": "java.lang.ArithmeticException"
+  },
+  {
+    "method": "caughtDivide",
+    "args": [
+      0
+    ],
+    "result": -1
+  },
+  {
+    "method": "tryFinally",
+    "args": [
+      0
+    ],
+    "result": 0
+  },
+  {
+    "method": "nestedLoop",
+    "args": [
+      5
+    ],
+    "result": 30
+  },
+  {
+    "method": "nullCall",
+    "args": [
+      null
+    ],
+    "threw": "java.lang.NullPointerException"
+  },
+  {
+    "method": "stringOps",
+    "args": [
+      "  hello  "
+    ],
+    "result": "HELLO!"
+  },
+  {
+    "method": "builderOps",
+    "args": [
+      "item",
+      4
+    ],
+    "result": "item-4"
+  },
+  {
+    "method": "listSum",
+    "args": [
+      5
+    ],
+    "result": 10
+  },
+  {
+    "method": "mapValue",
+    "args": [],
+    "result": 42
+  }
+]

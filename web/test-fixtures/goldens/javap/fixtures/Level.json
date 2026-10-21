@@ -1,0 +1,250 @@
+{
+  "internalName": "fixtures/Level",
+  "constantPoolKinds": [
+    null,
+    "class",
+    "utf8",
+    "fieldRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "fieldRef",
+    "nameAndType",
+    "utf8",
+    "fieldRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "string",
+    "methodRef",
+    "string",
+    "methodRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "values",
+      "descriptor": "()[Lfixtures/Level;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "getstatic"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "invokevirtual"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "checkcast"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "valueOf",
+      "descriptor": "(Ljava/lang/String;)Lfixtures/Level;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "invokestatic"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "checkcast"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "<init>",
+      "descriptor": "(Ljava/lang/String;I)V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "aload_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "$values",
+      "descriptor": "()[Lfixtures/Level;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "iconst_2"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "anewarray"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "dup"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "getstatic"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "aastore"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "dup"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "iconst_1"
+        },
+        {
+          "offset": 12,
+          "mnemonic": "getstatic"
+        },
+        {
+          "offset": 15,
+          "mnemonic": "aastore"
+        },
+        {
+          "offset": 16,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "<clinit>",
+      "descriptor": "()V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "new"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "dup"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "iconst_0"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "putstatic"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "new"
+        },
+        {
+          "offset": 16,
+          "mnemonic": "dup"
+        },
+        {
+          "offset": 17,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "iconst_1"
+        },
+        {
+          "offset": 20,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 23,
+          "mnemonic": "putstatic"
+        },
+        {
+          "offset": 26,
+          "mnemonic": "invokestatic"
+        },
+        {
+          "offset": 29,
+          "mnemonic": "putstatic"
+        },
+        {
+          "offset": 32,
+          "mnemonic": "return"
+        }
+      ]
+    }
+  ]
+}
