@@ -16,26 +16,33 @@ public final class Main {
             case "dataflow" -> DataflowCommand.run();
             case "transform" -> runTransform();
             case "gate" -> runGate();
-            case "evidence" -> ParityCommand.evidence(bindings);
-            case "fuzz" -> ParityCommand.fuzz(bindings);
-            case "inert" -> ParityCommand.inert();
+            case "evidence" -> printEvidence(ParityCommand.evidence(bindings));
+            case "fuzz" -> {
+                TransformCommand.transform();
+                printFuzz(ParityCommand.fuzz(bindings));
+            }
+            case "inert" -> printInert(ParityCommand.inert());
             case "intake" -> EventIntake.main(args);
             case "all" -> {
                 FactsCommand.run();
                 DataflowCommand.run();
                 runTransform();
                 runGate();
-                ParityCommand.evidence(bindings);
-                ParityCommand.fuzz(bindings);
-                ParityCommand.inert();
+                printEvidence(ParityCommand.evidence(bindings));
+                printFuzz(ParityCommand.fuzz(bindings));
+                printInert(ParityCommand.inert());
             }
             default -> throw new IllegalArgumentException("Unknown command: " + command);
         }
     }
     private static void runTransform() throws Exception {
-        List<RuleJson.RuleRecord> rules = TransformCommand.transform();
-        System.out.println("source rules=10 condition rules=" + rules.size() + " findings=1");
+        TransformCommand.TransformResult result = TransformCommand.transformResult();
+        List<RuleJson.RuleRecord> rules = result.rules();
+        long sourceCount = rules.stream().map(RuleJson.RuleRecord::legacyRule).distinct().count();
+        System.out.println("source rules=" + sourceCount + " condition rules=" + rules.size()
+            + " findings=" + result.findings().size());
         rules.forEach(rule -> System.out.println(rule.ruleId() + " -> " + rule.emit() + " [" + rule.family() + "]"));
+        result.findings().forEach(finding -> System.out.println("FINDING " + finding.rule() + ": " + finding.reason()));
     }
     private static void runGate() throws Exception {
         List<String> errors = GateCommand.validate(Path.of("out/rules.json"));
@@ -44,5 +51,22 @@ public final class Main {
             throw new IllegalStateException("Gate rejected " + errors.size() + " violation(s)");
         }
         System.out.println("gate: PASS");
+    }
+    private static void printEvidence(ParityCommand.EvidenceResult result) {
+        result.bindingsResult().forEach(row -> System.out.println(row.legacyField() + " " + row.status()
+            + " " + row.matches() + "/" + row.total()
+            + (row.reason().isEmpty() ? "" : " — " + row.reason())
+            + (row.firstRecordId().isEmpty() ? "" : " first=" + row.firstRecordId())));
+    }
+    private static void printFuzz(FuzzCommand.FuzzResult result) {
+        result.domains().forEach((rule, domain) -> System.out.println("domain " + rule + " " + domain));
+        result.disagreements().forEach(mismatch -> System.out.println("DISAGREEMENT " + mismatch));
+        System.out.println("fuzz total=" + result.cases() + " disagreements=" + result.disagreements().size());
+    }
+    private static void printInert(ParityCommand.InertResult result) {
+        System.out.println("Engine (lazy): " + (result.enginePassed()
+            ? "PASS — metrics read only when reached" : "FAIL"));
+        System.out.println("NaiveEngine (prefetch): " + (result.naiveFailed()
+            ? "FAIL — touched scoreFor on an inert proxy" : "PASS unexpectedly"));
     }
 }

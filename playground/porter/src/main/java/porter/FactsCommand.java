@@ -6,7 +6,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class FactsCommand {
     private FactsCommand() {}
@@ -19,23 +22,46 @@ public final class FactsCommand {
                 modern.model.Guarantor.class, modern.model.Employment.class)) {
             var record = new java.util.LinkedHashMap<String, Object>();
             record.put("class", type.getName());
-            List<String> fields = new ArrayList<String>();
+            List<Map<String, String>> fields = new ArrayList<>();
             for (Field field : type.getDeclaredFields()) {
-                fields.add(Modifier.toString(field.getModifiers()) + " " + field.getGenericType().getTypeName()
-                    + " " + field.getName());
+                Map<String, String> fact = new LinkedHashMap<>();
+                fact.put("field", field.getName());
+                fact.put("type", field.getGenericType().getTypeName());
+                fact.put("modifiers", Modifier.toString(field.getModifiers()));
+                fields.add(fact);
             }
+            fields.sort(Comparator.comparing(field -> field.get("field")));
             record.put("fields", fields);
-            List<String> properties = new ArrayList<String>();
+            List<Map<String, String>> properties = new ArrayList<>();
             for (var descriptor : Introspector.getBeanInfo(type).getPropertyDescriptors()) {
                 if ("class".equals(descriptor.getName())) continue;
-                properties.add(descriptor.getName() + ":read="
-                    + (descriptor.getReadMethod() == null ? "-" : descriptor.getReadMethod().getName())
-                    + ",write=" + (descriptor.getWriteMethod() == null ? "-" : descriptor.getWriteMethod().getName()));
+                Map<String, String> fact = new LinkedHashMap<>();
+                fact.put("property", descriptor.getName());
+                fact.put("readMethod", descriptor.getReadMethod() == null ? "" : descriptor.getReadMethod().getName());
+                fact.put("writeMethod", descriptor.getWriteMethod() == null ? "" : descriptor.getWriteMethod().getName());
+                properties.add(fact);
             }
+            properties.sort(Comparator.comparing(property -> property.get("property")));
             record.put("properties", properties);
             output.add(record);
         }
         new ObjectMapper().writerWithDefaultPrettyPrinter().writeValue(Path.of("out/facts.json").toFile(), output);
-        output.forEach(System.out::println);
+        for (Object item : output) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> record = (Map<String, Object>) item;
+            System.out.println(record.get("class"));
+            System.out.println("  Fields");
+            System.out.printf("    %-22s %-48s %-18s%n", "FIELD", "TYPE", "MODIFIERS");
+            @SuppressWarnings("unchecked")
+            List<Map<String, String>> fields = (List<Map<String, String>>) record.get("fields");
+            for (Map<String, String> field : fields)
+                System.out.printf("    %-22s %-48s %-18s%n", field.get("field"), field.get("type"), field.get("modifiers"));
+            System.out.println("  Properties");
+            System.out.printf("    %-22s %-24s %-24s%n", "PROPERTY", "READ METHOD", "WRITE METHOD");
+            @SuppressWarnings("unchecked")
+            List<Map<String, String>> properties = (List<Map<String, String>>) record.get("properties");
+            for (Map<String, String> property : properties)
+                System.out.printf("    %-22s %-24s %-24s%n", property.get("property"), property.get("readMethod"), property.get("writeMethod"));
+        }
     }
 }

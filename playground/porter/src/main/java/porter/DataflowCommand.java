@@ -166,6 +166,7 @@ public final class DataflowCommand {
     private static List<String> sources(SourceValue value) {
         List<String> result = new ArrayList<>();
         for (AbstractInsnNode instruction : value.insns) result.add(describe(instruction));
+        result.sort(String::compareTo);
         return result;
     }
     private static String describe(AbstractInsnNode node) {

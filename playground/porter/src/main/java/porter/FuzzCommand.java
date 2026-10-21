@@ -9,6 +9,7 @@ import java.lang.reflect.Modifier;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -31,8 +32,10 @@ public final class FuzzCommand {
     private record Binding(String legacy, String metric, String via, Map<String, String> values) {}
     private record Domain(Map<String, List<Object>> values, List<Integer> integers, List<String> strings) {}
     private record Outcome(List<String> codes, String error) {}
+    public record FuzzResult(Path bindings, int cases, Map<String, Object> domains,
+            List<JsonNode> disagreements) {}
 
-    public static void run(Path bindingFile) throws Exception {
+    public static FuzzResult run(Path bindingFile) throws Exception {
         Map<String, Binding> bindings = readBindings(bindingFile);
         Map<String, Binding> correct = readBindings(Path.of("data/bindings.ai.json"));
         List<RuleJson.RuleRecord> transformed = RuleJson.readRecords(Path.of("out/rules.json"));
@@ -54,8 +57,6 @@ public final class FuzzCommand {
             Domain domain = domain(legacyRule.getClass(), correct);
             domainReport.put(group.getKey(), Map.of("fields", domain.values(),
                 "integerLiterals", domain.integers(), "stringLiterals", domain.strings()));
-            System.out.println("domain " + group.getKey() + " integers=" + domain.integers()
-                + " strings=" + domain.strings() + " fields=" + domain.values());
             List<Map<String, Object>> cases = cartesian(domain.values(), 12000);
             addSeededCases(cases, domain.values(), 24, 731L + group.getKey().hashCode());
             int disagreements = 0;
@@ -72,11 +73,8 @@ public final class FuzzCommand {
                     mismatch.set("input", JSON.valueToTree(assignment));
                     mismatch.set("legacy", JSON.valueToTree(expected));
                     mismatch.set("modern", JSON.valueToTree(actual));
-                    System.out.println("DISAGREEMENT " + group.getKey() + " input=" + assignment
-                        + " legacy=" + expected + " modern=" + actual);
                 }
             }
-            System.out.println(group.getKey() + " cases=" + cases.size() + " disagreements=" + disagreements);
         }
         report.put("bindings", bindingFile.toString());
         report.put("domains", domainReport);
@@ -85,6 +83,8 @@ public final class FuzzCommand {
         Files.createDirectories(Path.of("out"));
         JSON.writerWithDefaultPrettyPrinter().writeValue(Path.of("out/fuzz.json").toFile(), report);
         int count = mismatches.size();
+        List<JsonNode> mismatchValues = new ArrayList<>();
+        mismatches.forEach(value -> mismatchValues.add(value.deepCopy()));
         if (bindingFile.getFileName().toString().contains("mistake")) {
             boolean r08 = false;
             boolean r06 = false;
@@ -96,7 +96,8 @@ public final class FuzzCommand {
         } else if (count != 0) {
             throw new IllegalStateException("Correct bindings have " + count + " differential disagreements");
         }
-        System.out.println("fuzz total=" + total + " disagreements=" + count);
+        return new FuzzResult(bindingFile, total,
+            Collections.unmodifiableMap(new LinkedHashMap<>(domainReport)), List.copyOf(mismatchValues));
     }
 
     private static Domain domain(Class<?> ruleClass, Map<String, Binding> bindings) throws Exception {
