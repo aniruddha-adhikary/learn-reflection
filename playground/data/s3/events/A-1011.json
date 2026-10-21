@@ -1,0 +1,24 @@
+{
+  "id": "A-1011",
+  "applicant": {
+    "applicantId": "P-1011",
+    "fullName": "Grace Kim",
+    "income": {
+      "annual": 66000,
+      "currency": "USD"
+    },
+    "employment": "SELF_EMPLOYED",
+    "debts": {
+      "monthlyTotal": 1500
+    },
+    "residence": {
+      "countryCode": "US"
+    }
+  },
+  "request": {
+    "principal": 100000,
+    "termMonths": 420,
+    "secured": false
+  },
+  "guarantors": []
+}
