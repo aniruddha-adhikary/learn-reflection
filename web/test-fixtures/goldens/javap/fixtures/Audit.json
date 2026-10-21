@@ -1,0 +1,58 @@
+{
+  "internalName": "fixtures/Audit",
+  "constantPoolKinds": [
+    null,
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "value",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": []
+    },
+    {
+      "name": "level",
+      "descriptor": "()Lfixtures/Level;",
+      "instructions": []
+    },
+    {
+      "name": "numbers",
+      "descriptor": "()[I",
+      "instructions": []
+    },
+    {
+      "name": "detail",
+      "descriptor": "()Lfixtures/Audit$Detail;",
+      "instructions": []
+    }
+  ]
+}

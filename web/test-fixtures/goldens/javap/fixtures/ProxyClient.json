@@ -1,0 +1,76 @@
+{
+  "internalName": "fixtures/ProxyClient",
+  "constantPoolKinds": [
+    null,
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "string",
+    "utf8",
+    "interfaceMethodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "<init>",
+      "descriptor": "()V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "call",
+      "descriptor": "(Lfixtures/Transformer;)Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 3,
+          "mnemonic": "invokeinterface"
+        },
+        {
+          "offset": 8,
+          "mnemonic": "areturn"
+        }
+      ]
+    }
+  ]
+}

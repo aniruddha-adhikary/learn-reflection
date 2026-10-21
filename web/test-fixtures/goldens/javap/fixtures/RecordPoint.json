@@ -1,0 +1,204 @@
+{
+  "internalName": "fixtures/RecordPoint",
+  "constantPoolKinds": [
+    null,
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "fieldRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "fieldRef",
+    "nameAndType",
+    "utf8",
+    "invokeDynamic",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "invokeDynamic",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "invokeDynamic",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "methodHandle",
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "string",
+    "utf8",
+    "methodHandle",
+    "methodHandle",
+    "utf8",
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "<init>",
+      "descriptor": "(II)V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "iload_2"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 14,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "toString",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokedynamic"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "hashCode",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokedynamic"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "equals",
+      "descriptor": "(Ljava/lang/Object;)Z",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "aload_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "invokedynamic"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "x",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "y",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "ireturn"
+        }
+      ]
+    }
+  ]
+}

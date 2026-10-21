@@ -1,0 +1,251 @@
+{
+  "internalName": "fixtures/FixtureHarness$Case",
+  "constantPoolKinds": [
+    null,
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "fieldRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "fieldRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "fieldRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "invokeDynamic",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "invokeDynamic",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "invokeDynamic",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "methodHandle",
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "string",
+    "utf8",
+    "methodHandle",
+    "methodHandle",
+    "methodHandle",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "<init>",
+      "descriptor": "(Ljava/lang/String;[Ljava/lang/Class;[Ljava/lang/Object;)V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "aload_1"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "aload_2"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 14,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 15,
+          "mnemonic": "aload_3"
+        },
+        {
+          "offset": 16,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 19,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "toString",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokedynamic"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "hashCode",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokedynamic"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "equals",
+      "descriptor": "(Ljava/lang/Object;)Z",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "aload_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "invokedynamic"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "name",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "parameterTypes",
+      "descriptor": "()[Ljava/lang/Class;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "arguments",
+      "descriptor": "()[Ljava/lang/Object;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "areturn"
+        }
+      ]
+    }
+  ]
+}

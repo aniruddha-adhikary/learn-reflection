@@ -1,0 +1,190 @@
+{
+  "internalName": "fixtures/Bean",
+  "constantPoolKinds": [
+    null,
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "string",
+    "utf8",
+    "fieldRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "string",
+    "utf8",
+    "fieldRef",
+    "nameAndType",
+    "utf8",
+    "fieldRef",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "string",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "<init>",
+      "descriptor": "()V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 7,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 10,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 11,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 13,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 16,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "getName",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "areturn"
+        }
+      ]
+    },
+    {
+      "name": "setName",
+      "descriptor": "(Ljava/lang/String;)V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "aload_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "isReady",
+      "descriptor": "()Z",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "setReady",
+      "descriptor": "(Z)V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "getURL",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "areturn"
+        }
+      ]
+    }
+  ]
+}
