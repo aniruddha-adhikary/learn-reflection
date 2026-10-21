@@ -51,7 +51,7 @@ function LegacyLane({ beat }: { beat: number }) {
       ))}
       {beat === 1 &&
         legacyRows.map((row, i) => (
-          <motion.g key={legacyCell(row, 'APP_ID')} initial={{ x: 40 + (i % 6) * 20, y: 200, opacity: 0 }} animate={{ x: 196 + (i % 3) * 6, y: 150 - i * 5, opacity: 1 }} transition={{ delay: i * 0.3, duration: 0.6 }}>
+          <motion.g key={legacyCell(row, 'APP_ID')} initial={{ x: 40 + (i % 6) * 20, y: 200, opacity: 0 }} animate={{ x: 20 + (i % 4) * 72, y: 136 + Math.floor(i / 4) * 20, opacity: 1 }} transition={{ delay: i * 0.3, duration: 0.6 }}>
             <rect width={66} height={14} rx={4} fill="#2a2210" stroke={AMBER} strokeOpacity={0.6} />
             <text x={33} y={10} textAnchor="middle" fill={AMBER} fontSize={8} className="mono">
               {legacyCell(row, 'APP_ID')}
@@ -65,7 +65,7 @@ function LegacyLane({ beat }: { beat: number }) {
       )}
       {beat === 3 &&
         legacyRows.map((row, i) => (
-          <motion.g key={legacyCell(row, 'APP_ID')} initial={{ x: 470, y: 160, opacity: 0 }} animate={{ x: [470, 600, 700, 870], y: [160, 160, 160, 160], opacity: [0, 1, 1, 0] }} transition={{ delay: i * 0.35, duration: 2.2 }}>
+          <motion.g key={legacyCell(row, 'APP_ID')} initial={{ x: 470, y: 160, opacity: 0 }} animate={{ x: [470, 600, 700, 870], y: [160, 160, 160, 160], opacity: [0, 1, 1, 0] }} transition={{ delay: i * 0.5, duration: 2.2 }}>
             <rect width={56} height={14} rx={4} fill="#2a2210" stroke={AMBER} />
             <text x={28} y={10} textAnchor="middle" fill={AMBER} fontSize={8} className="mono">
               {legacyCell(row, 'APP_ID')}
@@ -96,7 +96,7 @@ function ModernLane({ beat }: { beat: number }) {
       <Node x={20} y={50} w={140} title="Web & mobile" sub="apply any time" color={CYAN} active={on} />
       <Node x={250} y={50} w={130} title="S3 bucket" sub="object created" color={CYAN} active={on} />
       <Node x={460} y={50} w={130} title="Intake" sub="per event" color={CYAN} active={on} />
-      <Node x={670} y={50} w={160} title="Rule engine" sub="foundation + slots" color={CYAN} active={on} />
+      <Node x={670} y={50} w={160} title="Rule engine" sub="rule templates" color={CYAN} active={on} />
       <Node x={880} y={50} w={100} title="Decision" sub="in ~1 s" color={CYAN} active={on} />
       <Node x={670} y={170} w={160} title="Credit bureau" sub="service call" color="#a78bfa" active={beat === 5} />
       {beat === 5 && (
@@ -222,7 +222,7 @@ function SameRule() {
         ≡
       </motion.div>
       <div className="panel" style={{ borderColor: '#22d3ee66' }}>
-        <span className="pill modern">LoanFlow · rules.json (generated)</span>
+        <span className="pill modern">LoanFlow · rules.json (filled-in template)</span>
         <pre className="mono" style={{ fontSize: 14, lineHeight: 1.6, margin: '12px 0 0' }}>
           {'{ "when": { "cmp": "<",\n    "l": { "read": "credit.score" },\n    "r": { "int": 580 } },\n  "emit": "DECLINE_LOW_SCORE" }'}
         </pre>
