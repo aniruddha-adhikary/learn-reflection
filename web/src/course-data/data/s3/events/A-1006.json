@@ -1,0 +1,34 @@
+{
+  "id": "A-1006",
+  "applicant": {
+    "applicantId": "P-1006",
+    "fullName": "Jonas Berg",
+    "income": {
+      "annual": 180000,
+      "currency": "USD"
+    },
+    "employment": "EMPLOYED",
+    "debts": {
+      "monthlyTotal": 3000
+    },
+    "residence": {
+      "countryCode": "XA"
+    }
+  },
+  "request": {
+    "principal": 650000,
+    "termMonths": 300,
+    "secured": true
+  },
+  "guarantors": [
+    {
+      "name": "Kim"
+    },
+    {
+      "name": ""
+    },
+    {
+      "name": "Ravi"
+    }
+  ]
+}
