@@ -23,12 +23,17 @@ public final class ParityCommand {
     private static final ObjectMapper JSON = new ObjectMapper();
     private ParityCommand() {}
 
-    public static void evidence(Path bindingPath) throws Exception {
+    public record EvidenceRow(String legacyField, String status, int matches, int total,
+            String firstRecordId, String reason) {}
+    public record EvidenceResult(Path bindings, List<EvidenceRow> bindingsResult) {}
+    public record InertResult(boolean enginePassed, boolean naiveFailed, String message) {}
+
+    public static EvidenceResult evidence(Path bindingPath) throws Exception {
         JsonNode root = JSON.readTree(bindingPath.toFile());
         JsonNode bindings = root.path("bindings");
         Map<String, LoanEvent> events = loadEvents();
         Map<String, Integer> scores = scores();
-        List<String> result = new ArrayList<String>();
+        List<EvidenceRow> result = new ArrayList<>();
         for (JsonNode binding : bindings) {
             String fieldName = binding.path("legacy").asText();
             int hash = fieldName.lastIndexOf('#');
@@ -37,6 +42,7 @@ public final class ParityCommand {
             Field field = Class.forName(ownerName).getDeclaredField(fieldPart);
             field.setAccessible(true);
             int agree = 0;
+            String firstId = "";
             String first = "";
             int count = 0;
             for (String[] row : readRows()) {
@@ -59,14 +65,17 @@ public final class ParityCommand {
                     JsonNode mapping = binding.path("values");
                     JsonNode mapped = mapping.get(String.valueOf(legacyValue));
                     modernValue = mapped == null ? null : Employment.valueOf(mapped.asText());
-                    expectedValue = modernValue;
+                    expectedValue = event.getApplicant().getEmployment();
                 } else if (binding.has("via") && "size".equals(binding.path("via").asText()))
                     modernValue = event.getGuarantors().size();
                 else modernValue = MetricsValue(metric, event, service);
                 if (binding.has("via") && "size".equals(binding.path("via").asText()))
                     expectedValue = ((java.util.List<?>) legacyValue).size();
                 if (java.util.Objects.equals(expectedValue, modernValue)) agree++;
-                else if (first.isEmpty()) first = id + ": " + legacyValue + " != " + modernValue;
+                else if (firstId.isEmpty()) {
+                    firstId = id;
+                    first = legacyValue + " != " + modernValue;
+                }
                 count++;
             }
             boolean injective = true;
@@ -76,17 +85,17 @@ public final class ParityCommand {
                 injective = mapped.stream().distinct().count() == mapped.size();
             }
             String status = agree == count && injective ? "CONFIRMED" : "REJECTED";
-            String line = fieldName + " " + status + " " + agree + "/" + count
-                + (first.isEmpty() ? "" : " first=" + first)
-                + (injective ? "" : " value map is not injective");
-            result.add(line);
+            String reason = first.isEmpty() ? "" : first;
+            if (!injective) reason = reason.isEmpty() ? "value map is not injective"
+                : reason + "; value map is not injective";
+            result.add(new EvidenceRow(fieldName, status, agree, count, firstId, reason));
         }
-        result.forEach(System.out::println);
         JSON.writerWithDefaultPrettyPrinter().writeValue(Path.of("out/evidence.json").toFile(), result);
+        return new EvidenceResult(bindingPath, List.copyOf(result));
     }
 
-    public static void fuzz(Path bindingPath) throws Exception {
-        FuzzCommand.run(bindingPath);
+    public static FuzzCommand.FuzzResult fuzz(Path bindingPath) throws Exception {
+        return FuzzCommand.run(bindingPath);
     }
 
     private static void compare(legacy.model.LoanApplication app, LoanEvent event, Services services,
@@ -105,7 +114,7 @@ public final class ParityCommand {
         }
     }
 
-    public static void inert() throws Exception {
+    public static InertResult inert() throws Exception {
         List<ConditionRule> rules = new ArrayList<ConditionRule>();
         for (RuleJson.RuleRecord record : RuleJson.readRecords(Path.of("out/rules.json"))) {
             if (!record.legacyRule().startsWith("R01") && !record.legacyRule().startsWith("R06")
@@ -116,13 +125,13 @@ public final class ParityCommand {
         Services inert = new Services((CreditBureau) applicantId -> {
             throw new IllegalStateException("inert: scoreFor called");
         });
-        System.out.println("Engine: " + new Engine().evaluate(rules, event, inert));
+        new Engine().evaluate(rules, event, inert);
         try {
             new NaiveEngine().evaluate(rules, event, inert);
             throw new IllegalStateException("NaiveEngine unexpectedly avoided credit.score");
         } catch (IllegalStateException expected) {
             if (!expected.getMessage().startsWith("inert:")) throw expected;
-            System.out.println("NaiveEngine: " + expected.getMessage());
+            return new InertResult(true, true, expected.getMessage());
         }
     }
 

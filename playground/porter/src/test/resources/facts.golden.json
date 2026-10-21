@@ -1,0 +1,329 @@
+[ {
+  "class" : "legacy.model.Applicant",
+  "fields" : [ {
+    "field" : "annualIncome",
+    "type" : "int",
+    "modifiers" : "private"
+  }, {
+    "field" : "country",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  }, {
+    "field" : "creditScore",
+    "type" : "int",
+    "modifiers" : "private"
+  }, {
+    "field" : "empStat",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  }, {
+    "field" : "monthlyDebt",
+    "type" : "int",
+    "modifiers" : "private"
+  }, {
+    "field" : "name",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "annualIncome",
+    "readMethod" : "",
+    "writeMethod" : "setAnnualIncome"
+  }, {
+    "property" : "country",
+    "readMethod" : "getCountry",
+    "writeMethod" : "setCountry"
+  }, {
+    "property" : "credScr",
+    "readMethod" : "getCredScr",
+    "writeMethod" : "setCredScr"
+  }, {
+    "property" : "debt",
+    "readMethod" : "getDebt",
+    "writeMethod" : "setDebt"
+  }, {
+    "property" : "empStat",
+    "readMethod" : "getEmpStat",
+    "writeMethod" : "setEmpStat"
+  }, {
+    "property" : "income",
+    "readMethod" : "getIncome",
+    "writeMethod" : ""
+  }, {
+    "property" : "name",
+    "readMethod" : "getName",
+    "writeMethod" : "setName"
+  } ]
+}, {
+  "class" : "legacy.model.LoanApplication",
+  "fields" : [ {
+    "field" : "amount",
+    "type" : "int",
+    "modifiers" : "private"
+  }, {
+    "field" : "appId",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  }, {
+    "field" : "applicant",
+    "type" : "legacy.model.Applicant",
+    "modifiers" : "private"
+  }, {
+    "field" : "coSigners",
+    "type" : "java.util.List<java.lang.String>",
+    "modifiers" : "private"
+  }, {
+    "field" : "collateral",
+    "type" : "boolean",
+    "modifiers" : "private"
+  }, {
+    "field" : "termMonths",
+    "type" : "int",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "amount",
+    "readMethod" : "getAmount",
+    "writeMethod" : "setAmount"
+  }, {
+    "property" : "appId",
+    "readMethod" : "getAppId",
+    "writeMethod" : "setAppId"
+  }, {
+    "property" : "applicant",
+    "readMethod" : "getApplicant",
+    "writeMethod" : "setApplicant"
+  }, {
+    "property" : "coSigners",
+    "readMethod" : "getCoSigners",
+    "writeMethod" : ""
+  }, {
+    "property" : "collateral",
+    "readMethod" : "isCollateral",
+    "writeMethod" : "setCollateral"
+  }, {
+    "property" : "termMonths",
+    "readMethod" : "getTermMonths",
+    "writeMethod" : "setTermMonths"
+  } ]
+}, {
+  "class" : "legacy.model.Decision",
+  "fields" : [ {
+    "field" : "codes",
+    "type" : "java.util.List<java.lang.String>",
+    "modifiers" : "private final"
+  }, {
+    "field" : "referrals",
+    "type" : "java.util.List<java.lang.String>",
+    "modifiers" : "private final"
+  } ],
+  "properties" : [ {
+    "property" : "codes",
+    "readMethod" : "getCodes",
+    "writeMethod" : ""
+  }, {
+    "property" : "referrals",
+    "readMethod" : "getReferrals",
+    "writeMethod" : ""
+  } ]
+}, {
+  "class" : "modern.model.Applicant",
+  "fields" : [ {
+    "field" : "applicantId",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  }, {
+    "field" : "debts",
+    "type" : "modern.model.Debts",
+    "modifiers" : "private"
+  }, {
+    "field" : "employment",
+    "type" : "modern.model.Employment",
+    "modifiers" : "private"
+  }, {
+    "field" : "fullName",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  }, {
+    "field" : "income",
+    "type" : "modern.model.Income",
+    "modifiers" : "private"
+  }, {
+    "field" : "residence",
+    "type" : "modern.model.Residence",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "applicantId",
+    "readMethod" : "getApplicantId",
+    "writeMethod" : "setApplicantId"
+  }, {
+    "property" : "debts",
+    "readMethod" : "getDebts",
+    "writeMethod" : "setDebts"
+  }, {
+    "property" : "employment",
+    "readMethod" : "getEmployment",
+    "writeMethod" : "setEmployment"
+  }, {
+    "property" : "fullName",
+    "readMethod" : "getFullName",
+    "writeMethod" : "setFullName"
+  }, {
+    "property" : "income",
+    "readMethod" : "getIncome",
+    "writeMethod" : "setIncome"
+  }, {
+    "property" : "residence",
+    "readMethod" : "getResidence",
+    "writeMethod" : "setResidence"
+  } ]
+}, {
+  "class" : "modern.model.LoanEvent",
+  "fields" : [ {
+    "field" : "applicant",
+    "type" : "modern.model.Applicant",
+    "modifiers" : "private"
+  }, {
+    "field" : "guarantors",
+    "type" : "java.util.List<modern.model.Guarantor>",
+    "modifiers" : "private"
+  }, {
+    "field" : "id",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  }, {
+    "field" : "request",
+    "type" : "modern.model.LoanRequest",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "applicant",
+    "readMethod" : "getApplicant",
+    "writeMethod" : "setApplicant"
+  }, {
+    "property" : "guarantors",
+    "readMethod" : "getGuarantors",
+    "writeMethod" : "setGuarantors"
+  }, {
+    "property" : "id",
+    "readMethod" : "getId",
+    "writeMethod" : "setId"
+  }, {
+    "property" : "request",
+    "readMethod" : "getRequest",
+    "writeMethod" : "setRequest"
+  } ]
+}, {
+  "class" : "modern.model.Income",
+  "fields" : [ {
+    "field" : "annual",
+    "type" : "int",
+    "modifiers" : "private"
+  }, {
+    "field" : "currency",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "annual",
+    "readMethod" : "getAnnual",
+    "writeMethod" : "setAnnual"
+  }, {
+    "property" : "currency",
+    "readMethod" : "getCurrency",
+    "writeMethod" : "setCurrency"
+  } ]
+}, {
+  "class" : "modern.model.Debts",
+  "fields" : [ {
+    "field" : "monthlyTotal",
+    "type" : "int",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "monthlyTotal",
+    "readMethod" : "getMonthlyTotal",
+    "writeMethod" : "setMonthlyTotal"
+  } ]
+}, {
+  "class" : "modern.model.Residence",
+  "fields" : [ {
+    "field" : "countryCode",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "countryCode",
+    "readMethod" : "getCountryCode",
+    "writeMethod" : "setCountryCode"
+  } ]
+}, {
+  "class" : "modern.model.LoanRequest",
+  "fields" : [ {
+    "field" : "principal",
+    "type" : "int",
+    "modifiers" : "private"
+  }, {
+    "field" : "secured",
+    "type" : "boolean",
+    "modifiers" : "private"
+  }, {
+    "field" : "termMonths",
+    "type" : "int",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "principal",
+    "readMethod" : "getPrincipal",
+    "writeMethod" : "setPrincipal"
+  }, {
+    "property" : "secured",
+    "readMethod" : "isSecured",
+    "writeMethod" : "setSecured"
+  }, {
+    "property" : "termMonths",
+    "readMethod" : "getTermMonths",
+    "writeMethod" : "setTermMonths"
+  } ]
+}, {
+  "class" : "modern.model.Guarantor",
+  "fields" : [ {
+    "field" : "name",
+    "type" : "java.lang.String",
+    "modifiers" : "private"
+  } ],
+  "properties" : [ {
+    "property" : "name",
+    "readMethod" : "getName",
+    "writeMethod" : "setName"
+  } ]
+}, {
+  "class" : "modern.model.Employment",
+  "fields" : [ {
+    "field" : "$VALUES",
+    "type" : "modern.model.Employment[]",
+    "modifiers" : "private static final"
+  }, {
+    "field" : "EMPLOYED",
+    "type" : "modern.model.Employment",
+    "modifiers" : "public static final"
+  }, {
+    "field" : "RETIRED",
+    "type" : "modern.model.Employment",
+    "modifiers" : "public static final"
+  }, {
+    "field" : "SELF_EMPLOYED",
+    "type" : "modern.model.Employment",
+    "modifiers" : "public static final"
+  }, {
+    "field" : "UNEMPLOYED",
+    "type" : "modern.model.Employment",
+    "modifiers" : "public static final"
+  } ],
+  "properties" : [ {
+    "property" : "declaringClass",
+    "readMethod" : "getDeclaringClass",
+    "writeMethod" : ""
+  } ]
+} ]

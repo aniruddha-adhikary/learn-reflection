@@ -32,13 +32,14 @@ public final class TransformCommand {
     }
     private record Emission(int pc, String code, List<Expr> conditions) {}
     private record State(int pc, List<Value> stack, Map<Integer, Value> locals, List<Expr> conditions) {}
-    private static final class Finding {
-        final String rule;
-        final String reason;
-        Finding(String rule, String reason) { this.rule = rule; this.reason = reason; }
-    }
+    public record Finding(String rule, String reason) {}
+    public record TransformResult(List<RuleJson.RuleRecord> rules, List<Finding> findings) {}
 
     public static List<RuleJson.RuleRecord> transform() throws Exception {
+        return transformResult().rules();
+    }
+
+    public static TransformResult transformResult() throws Exception {
         Map<String, Binding> bindings = readBindings(Path.of("data/bindings.ai.json"));
         List<RuleJson.RuleRecord> result = new ArrayList<>();
         List<Finding> findings = new ArrayList<>();
@@ -68,12 +69,12 @@ public final class TransformCommand {
         RuleJson.write(Path.of("out", "rules.json"), result);
         var findingArray = com.fasterxml.jackson.databind.node.JsonNodeFactory.instance.arrayNode();
         for (Finding finding : findings) {
-            findingArray.addObject().put("legacyRule", finding.rule).put("kind", "MISFIT").put("reason", finding.reason);
+            findingArray.addObject().put("legacyRule", finding.rule()).put("kind", "MISFIT").put("reason", finding.reason());
         }
         var root = com.fasterxml.jackson.databind.node.JsonNodeFactory.instance.objectNode();
         root.set("findings", findingArray);
         JSON.writerWithDefaultPrettyPrinter().writeValue(Path.of("out", "longtail.json").toFile(), root);
-        return result;
+        return new TransformResult(List.copyOf(result), List.copyOf(findings));
     }
 
     private static String execute(ClassNode owner, MethodNode method, String rule,
