@@ -996,9 +996,7 @@ export class Jvm {
       ],
       ['size()I', (receiver) => this.listValues(receiver).length],
       ['isEmpty()Z', (receiver) => (this.listValues(receiver).length === 0 ? 1 : 0)],
-      ['contains(Ljava/lang/Object;)Z', (receiver, [value]) =>
-        this.listValues(receiver).some((item) => valuesEqual(item, value ?? null)) ? 1 : 0,
-      ],
+      ['contains(Ljava/lang/Object;)Z', (receiver, [value]) => this.listContains(receiver, value ?? null) ? 1 : 0],
       ['iterator()Ljava/util/Iterator;', (receiver) => ({
         kind: 'object',
         cls: 'java/util/ArrayList$Iterator',
@@ -1086,7 +1084,7 @@ export class Jvm {
       return 1;
     });
     this.register('java/util/Set', 'contains', '(Ljava/lang/Object;)Z', (receiver, [value]) =>
-      this.setFor(receiver).some((existing) => valuesEqual(existing, value ?? null)) ? 1 : 0,
+      this.setContains(receiver, value ?? null) ? 1 : 0,
     );
     this.register('java/util/Set', 'size', '()I', (receiver) => this.setFor(receiver).length);
     for (const [name, descriptor] of [
@@ -1136,7 +1134,11 @@ export class Jvm {
         return this.immutableMap(entries);
       });
     }
-    this.register('java/util/Collections', 'emptyList', '()Ljava/util/List;', () => this.immutableList([]));
+    this.register('java/util/Collections', 'emptyList', '()Ljava/util/List;', () => ({
+      kind: 'object',
+      cls: 'java/util/Collections$EmptyList',
+      fields: new Map(),
+    }));
     this.register('java/util/Collections', 'unmodifiableList', '(Ljava/util/List;)Ljava/util/List;', (_receiver, [list]) => {
       const wrapper: JObject = {
         kind: 'object',
@@ -1145,6 +1147,11 @@ export class Jvm {
       };
       return wrapper;
     });
+    this.register('java/util/Collections', 'unmodifiableSet', '(Ljava/util/Set;)Ljava/util/Set;', (_receiver, [set]) => ({
+      kind: 'object',
+      cls: 'java/util/Collections$UnmodifiableSet',
+      fields: new Map([['$delegate', set ?? null]]),
+    }));
   }
 
   private listArray(receiver: JvmValue): JArray {
@@ -1162,7 +1169,21 @@ export class Jvm {
     if (object.cls === 'java/util/Collections$UnmodifiableList') {
       return this.listValues(object.fields.get('$delegate') ?? null);
     }
+    if (object.cls === 'java/util/Collections$EmptyList') return [];
     return this.listArray(object).values;
+  }
+
+  private listContains(receiver: JvmValue, value: JvmValue): boolean {
+    if (receiver === null) this.throwJava('java/lang/NullPointerException', 'list receiver');
+    const object = requireObject(receiver);
+    if (object.cls === 'java/util/Collections$UnmodifiableList') {
+      return this.listContains(object.fields.get('$delegate') ?? null, value);
+    }
+    if (object.cls === 'java/util/Collections$EmptyList') return false;
+    if (value === null && object.cls === 'java/util/ImmutableCollections$ListN') {
+      this.throwJava('java/lang/NullPointerException', '');
+    }
+    return this.listValues(object).some((item) => valuesEqual(item, value));
   }
 
   private listElement(receiver: JvmValue, index: number): JvmValue {
@@ -1174,7 +1195,11 @@ export class Jvm {
   }
 
   private assertMutableList(receiver: JvmValue): void {
-    if (receiver !== null && requireObject(receiver).cls === 'java/util/Collections$UnmodifiableList') {
+    if (
+      receiver !== null &&
+      ['java/util/Collections$UnmodifiableList', 'java/util/Collections$EmptyList', 'java/util/ImmutableCollections$ListN']
+        .includes(requireObject(receiver).cls)
+    ) {
       this.throwJava('java/lang/UnsupportedOperationException', '');
     }
   }
@@ -1231,10 +1256,23 @@ export class Jvm {
     return values;
   }
 
+  private setContains(receiver: JvmValue, value: JvmValue): boolean {
+    if (receiver === null) this.throwJava('java/lang/NullPointerException', 'set receiver');
+    const object = requireObject(receiver);
+    if (object.cls === 'java/util/Collections$UnmodifiableSet') {
+      return this.setContains(object.fields.get('$delegate') ?? null, value);
+    }
+    if (value === null && object.cls === 'java/util/ImmutableCollections$SetN') {
+      this.throwJava('java/lang/NullPointerException', '');
+    }
+    return this.setFor(object).some((existing) => valuesEqual(existing, value));
+  }
+
   private assertMutableSet(receiver: JvmValue): void {
     if (
       receiver !== null &&
-      requireObject(receiver).cls === 'java/util/Collections$UnmodifiableSet'
+      ['java/util/Collections$UnmodifiableSet', 'java/util/ImmutableCollections$SetN']
+        .includes(requireObject(receiver).cls)
     ) {
       this.throwJava('java/lang/UnsupportedOperationException', '');
     }
@@ -1252,10 +1290,13 @@ export class Jvm {
   }
 
   private immutableList(values: readonly JvmValue[]): JObject {
+    if (values.some((value) => value === null)) this.throwJava('java/lang/NullPointerException', '');
     return {
       kind: 'object',
-      cls: 'java/util/Collections$UnmodifiableList',
-      fields: new Map([['$delegate', this.newList(values)]]),
+      cls: 'java/util/ImmutableCollections$ListN',
+      fields: new Map([
+        ['$elements', { kind: 'array', descriptor: '[Ljava/lang/Object;', values: [...values] } satisfies JArray],
+      ]),
     };
   }
 
@@ -1272,16 +1313,19 @@ export class Jvm {
   private immutableSet(values: readonly JvmValue[]): JObject {
     const unique: JvmValue[] = [];
     for (const value of values) {
+      if (value === null) this.throwJava('java/lang/NullPointerException', '');
       if (unique.some((existing) => valuesEqual(existing, value))) {
         this.throwJava('java/lang/IllegalArgumentException', 'duplicate element');
       }
       unique.push(value);
     }
-    return {
-      kind: 'object',
-      cls: 'java/util/Collections$UnmodifiableSet',
-      fields: new Map([['$delegate', this.newSet(unique)]]),
-    };
+    return this.newImmutableSet(unique);
+  }
+
+  private newImmutableSet(values: readonly JvmValue[]): JObject {
+    const set: JObject = { kind: 'object', cls: 'java/util/ImmutableCollections$SetN', fields: new Map() };
+    this.setValues.set(set, [...values]);
+    return set;
   }
 
   private newMap(): JObject {

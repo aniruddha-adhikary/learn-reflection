@@ -1,0 +1,24 @@
+{
+  "id": "A-1005",
+  "applicant": {
+    "applicantId": "P-1005",
+    "fullName": "Priya Nair",
+    "income": {
+      "annual": 250000,
+      "currency": "USD"
+    },
+    "employment": "EMPLOYED",
+    "debts": {
+      "monthlyTotal": 6000
+    },
+    "residence": {
+      "countryCode": "GB"
+    }
+  },
+  "request": {
+    "principal": 750000,
+    "termMonths": 360,
+    "secured": true
+  },
+  "guarantors": []
+}

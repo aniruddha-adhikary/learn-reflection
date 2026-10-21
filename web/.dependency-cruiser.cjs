@@ -12,8 +12,14 @@ module.exports = {
       from: { path: '^src/jvm/' },
       to: {
         path:
-          '^src/ui/|(^|/)node_modules/(react|react-dom)(/|$)|^(node:)?(fs|path|process|window|document)$',
+          '^src/porter/|^src/ui/|(^|/)node_modules/(react|react-dom)(/|$)|^(node:)?(fs|path|process|window|document)$',
       },
+    },
+    {
+      name: 'porter-is-ui-independent',
+      severity: 'error',
+      from: { path: '^src/porter/' },
+      to: { path: '^src/ui/' },
     },
     {
       name: 'classfile-does-not-depend-on-execution',

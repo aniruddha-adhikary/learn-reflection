@@ -1,0 +1,250 @@
+[ {
+  "ruleId" : "R01_MinimumScore",
+  "legacyRule" : "R01_MinimumScore",
+  "family" : "cmp(read,int)",
+  "emit" : "DECLINE_LOW_SCORE",
+  "when" : {
+    "cmp" : "<",
+    "l" : {
+      "read" : "credit.score"
+    },
+    "r" : {
+      "int" : 580
+    }
+  }
+}, {
+  "ruleId" : "R02_DebtToIncome",
+  "legacyRule" : "R02_DebtToIncome",
+  "family" : "cmp(arith,int)",
+  "emit" : "DECLINE_DTI",
+  "when" : {
+    "cmp" : ">",
+    "l" : {
+      "arith" : "/",
+      "l" : {
+        "arith" : "*",
+        "l" : {
+          "read" : "debt.monthly"
+        },
+        "r" : {
+          "int" : 100
+        }
+      },
+      "r" : {
+        "arith" : "/",
+        "l" : {
+          "read" : "income.annual"
+        },
+        "r" : {
+          "int" : 12
+        }
+      }
+    },
+    "r" : {
+      "int" : 43
+    }
+  }
+}, {
+  "ruleId" : "R03_Unemployed",
+  "legacyRule" : "R03_Unemployed",
+  "family" : "and(eq(read,enum),not(read))",
+  "emit" : "REFER_UNEMPLOYED",
+  "when" : {
+    "and" : [ {
+      "eq" : [ {
+        "read" : "employment"
+      }, {
+        "enum" : "UNEMPLOYED"
+      } ]
+    }, {
+      "isFalse" : {
+        "read" : "loan.secured"
+      }
+    } ]
+  }
+}, {
+  "ruleId" : "R04_LargeLoanCosigner",
+  "legacyRule" : "R04_LargeLoanCosigner",
+  "family" : "and(cmp(read,int),cmp(read,int))",
+  "emit" : "REFER_COSIGNER",
+  "when" : {
+    "and" : [ {
+      "cmp" : ">",
+      "l" : {
+        "read" : "loan.principal"
+      },
+      "r" : {
+        "int" : 500000
+      }
+    }, {
+      "cmp" : "<",
+      "l" : {
+        "read" : "guarantors.count"
+      },
+      "r" : {
+        "int" : 1
+      }
+    } ]
+  }
+}, {
+  "ruleId" : "R05_RestrictedCountry",
+  "legacyRule" : "R05_RestrictedCountry",
+  "family" : "in(read)",
+  "emit" : "REFER_SANCTIONS_CHECK",
+  "when" : {
+    "in" : {
+      "read" : "residence.country"
+    },
+    "members" : [ "XA", "XB" ]
+  }
+}, {
+  "ruleId" : "R06_FastTrack",
+  "legacyRule" : "R06_FastTrack",
+  "family" : "and(cmp(read,int),cmp(read,int),eq(read,enum))",
+  "emit" : "APPROVE_FAST_TRACK",
+  "when" : {
+    "and" : [ {
+      "cmp" : ">=",
+      "l" : {
+        "read" : "credit.score"
+      },
+      "r" : {
+        "int" : 760
+      }
+    }, {
+      "cmp" : "<=",
+      "l" : {
+        "read" : "loan.principal"
+      },
+      "r" : {
+        "int" : 50000
+      }
+    }, {
+      "eq" : [ {
+        "read" : "employment"
+      }, {
+        "enum" : "EMPLOYED"
+      } ]
+    } ]
+  }
+}, {
+  "ruleId" : "R07_MaxTerm",
+  "legacyRule" : "R07_MaxTerm",
+  "family" : "cmp(read,int)",
+  "emit" : "DECLINE_TERM",
+  "when" : {
+    "cmp" : ">",
+    "l" : {
+      "read" : "loan.term"
+    },
+    "r" : {
+      "int" : 360
+    }
+  }
+}, {
+  "ruleId" : "R08_SelfEmployedScore",
+  "legacyRule" : "R08_SelfEmployedScore",
+  "family" : "and(eq(read,enum),cmp(read,int))",
+  "emit" : "REFER_SELF_EMPLOYED",
+  "when" : {
+    "and" : [ {
+      "eq" : [ {
+        "read" : "employment"
+      }, {
+        "enum" : "SELF_EMPLOYED"
+      } ]
+    }, {
+      "cmp" : "<",
+      "l" : {
+        "read" : "credit.score"
+      },
+      "r" : {
+        "int" : 650
+      }
+    } ]
+  }
+}, {
+  "ruleId" : "R09_RetiredTerm",
+  "legacyRule" : "R09_RetiredTerm",
+  "family" : "and(eq(read,enum),cmp(read,int))",
+  "emit" : "REFER_RETIRED_TERM",
+  "when" : {
+    "and" : [ {
+      "eq" : [ {
+        "read" : "employment"
+      }, {
+        "enum" : "RETIRED"
+      } ]
+    }, {
+      "cmp" : ">",
+      "l" : {
+        "read" : "loan.term"
+      },
+      "r" : {
+        "int" : 240
+      }
+    } ]
+  }
+}, {
+  "ruleId" : "R10_ScoreBand#1",
+  "legacyRule" : "R10_ScoreBand",
+  "family" : "cmp(read,int)",
+  "emit" : "BAND_A",
+  "when" : {
+    "cmp" : ">=",
+    "l" : {
+      "read" : "credit.score"
+    },
+    "r" : {
+      "int" : 700
+    }
+  }
+}, {
+  "ruleId" : "R10_ScoreBand#2",
+  "legacyRule" : "R10_ScoreBand",
+  "family" : "and(cmp(read,int),cmp(read,int))",
+  "emit" : "BAND_B",
+  "when" : {
+    "and" : [ {
+      "cmp" : "<",
+      "l" : {
+        "read" : "credit.score"
+      },
+      "r" : {
+        "int" : 700
+      }
+    }, {
+      "cmp" : ">=",
+      "l" : {
+        "read" : "credit.score"
+      },
+      "r" : {
+        "int" : 620
+      }
+    } ]
+  }
+}, {
+  "ruleId" : "R10_ScoreBand#3",
+  "legacyRule" : "R10_ScoreBand",
+  "family" : "and(cmp(read,int),cmp(read,int))",
+  "emit" : "BAND_C",
+  "when" : {
+    "and" : [ {
+      "cmp" : "<",
+      "l" : {
+        "read" : "credit.score"
+      },
+      "r" : {
+        "int" : 700
+      }
+    }, {
+      "cmp" : "<",
+      "l" : {
+        "read" : "credit.score"
+      },
+      "r" : {
+        "int" : 620
+      }
+    } ]
+  }
+} ]

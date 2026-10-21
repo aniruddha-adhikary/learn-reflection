@@ -1,0 +1,28 @@
+{
+  "id": "A-1010",
+  "applicant": {
+    "applicantId": "P-1010",
+    "fullName": "Raj Patel",
+    "income": {
+      "annual": 84000,
+      "currency": "USD"
+    },
+    "employment": "EMPLOYED",
+    "debts": {
+      "monthlyTotal": 700
+    },
+    "residence": {
+      "countryCode": "IN"
+    }
+  },
+  "request": {
+    "principal": 30000,
+    "termMonths": 48,
+    "secured": false
+  },
+  "guarantors": [
+    {
+      "name": "Anil"
+    }
+  ]
+}

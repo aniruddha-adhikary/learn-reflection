@@ -1,0 +1,24 @@
+{
+  "id": "A-1008",
+  "applicant": {
+    "applicantId": "P-1008",
+    "fullName": "Omar Haddad",
+    "income": {
+      "annual": 54000,
+      "currency": "USD"
+    },
+    "employment": "RETIRED",
+    "debts": {
+      "monthlyTotal": 800
+    },
+    "residence": {
+      "countryCode": "US"
+    }
+  },
+  "request": {
+    "principal": 90000,
+    "termMonths": 300,
+    "secured": true
+  },
+  "guarantors": []
+}

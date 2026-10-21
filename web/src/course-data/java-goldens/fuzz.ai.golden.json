@@ -1,0 +1,84 @@
+{
+  "bindings" : "data/bindings.ai.json",
+  "domains" : {
+    "R01_MinimumScore" : {
+      "fields" : {
+        "legacy.model.Applicant#creditScore" : [ 0, 579, 580, 581 ]
+      },
+      "integerLiterals" : [ 580 ],
+      "stringLiterals" : [ "DECLINE_LOW_SCORE" ]
+    },
+    "R02_DebtToIncome" : {
+      "fields" : {
+        "legacy.model.Applicant#monthlyDebt" : [ 0, 99, 100, 101, 11, 12, 13, 42, 43, 44 ],
+        "legacy.model.Applicant#annualIncome" : [ 0, 99, 100, 101, 11, 12, 13, 42, 43, 44 ]
+      },
+      "integerLiterals" : [ 100, 12, 43 ],
+      "stringLiterals" : [ "DECLINE_DTI" ]
+    },
+    "R03_Unemployed" : {
+      "fields" : {
+        "legacy.model.Applicant#empStat" : [ "U", "REFER_UNEMPLOYED", "E", "S", "R", "", null ],
+        "legacy.model.LoanApplication#collateral" : [ false, true ]
+      },
+      "integerLiterals" : [ ],
+      "stringLiterals" : [ "U", "REFER_UNEMPLOYED" ]
+    },
+    "R04_LargeLoanCosigner" : {
+      "fields" : {
+        "legacy.model.LoanApplication#amount" : [ 0, 499999, 500000, 500001, 1, 2 ],
+        "legacy.model.LoanApplication#coSigners" : [ [ ], [ "A" ], [ "A", "" ] ]
+      },
+      "integerLiterals" : [ 500000, 1 ],
+      "stringLiterals" : [ "REFER_COSIGNER" ]
+    },
+    "R05_RestrictedCountry" : {
+      "fields" : {
+        "legacy.model.Applicant#country" : [ "REFER_SANCTIONS_CHECK", "XA", "XB", "", null ]
+      },
+      "integerLiterals" : [ ],
+      "stringLiterals" : [ "REFER_SANCTIONS_CHECK", "XA", "XB" ]
+    },
+    "R06_FastTrack" : {
+      "fields" : {
+        "legacy.model.Applicant#creditScore" : [ 0, 759, 760, 761, 49999, 50000, 50001 ],
+        "legacy.model.LoanApplication#amount" : [ 0, 759, 760, 761, 49999, 50000, 50001 ],
+        "legacy.model.Applicant#empStat" : [ "E", "APPROVE_FAST_TRACK", "S", "U", "R", "", null ]
+      },
+      "integerLiterals" : [ 760, 50000 ],
+      "stringLiterals" : [ "E", "APPROVE_FAST_TRACK" ]
+    },
+    "R07_MaxTerm" : {
+      "fields" : {
+        "legacy.model.LoanApplication#termMonths" : [ 0, 359, 360, 361 ]
+      },
+      "integerLiterals" : [ 360 ],
+      "stringLiterals" : [ "DECLINE_TERM" ]
+    },
+    "R08_SelfEmployedScore" : {
+      "fields" : {
+        "legacy.model.Applicant#empStat" : [ "S", "REFER_SELF_EMPLOYED", "E", "U", "R", "", null ],
+        "legacy.model.Applicant#creditScore" : [ 0, 649, 650, 651 ]
+      },
+      "integerLiterals" : [ 650 ],
+      "stringLiterals" : [ "S", "REFER_SELF_EMPLOYED" ]
+    },
+    "R09_RetiredTerm" : {
+      "fields" : {
+        "legacy.model.Applicant#empStat" : [ "R", "REFER_RETIRED_TERM", "E", "S", "U", "", null ],
+        "legacy.model.LoanApplication#termMonths" : [ 0, 239, 240, 241 ]
+      },
+      "integerLiterals" : [ 240 ],
+      "stringLiterals" : [ "R", "REFER_RETIRED_TERM" ]
+    },
+    "R10_ScoreBand" : {
+      "fields" : {
+        "legacy.model.Applicant#creditScore" : [ 0, 699, 700, 701, 619, 620, 621 ]
+      },
+      "integerLiterals" : [ 700, 620 ],
+      "stringLiterals" : [ "BAND_A", "BAND_B", "BAND_C" ]
+    }
+  },
+  "cases" : 791,
+  "disagreements" : [ ]
+}
