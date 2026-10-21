@@ -5,7 +5,7 @@ import {
   decodeCourseClasses,
 } from '../src/course-data';
 import { Jvm, parseClassFile, type JObject } from '../src/jvm';
-import { dataflow, evidence, facts, fuzz, inert, JavaRandom, transform } from '../src/porter';
+import { dataflow, evidence, facts, fuzz, getterFlows, inert, JavaRandom, transform } from '../src/porter';
 
 function parsedCourseClasses() {
   const classes = new Map<string, ReturnType<typeof parseClassFile>>();
@@ -36,6 +36,22 @@ describe('browser porter parity with Java command goldens', () => {
     expect(transformResult.trace).toHaveLength(12);
     expect(transformResult.trace.every((path) => path.instructionOffsets.length > 0)).toBe(true);
     expect(transformResult.trace.every((path) => path.branches.length > 0)).toBe(true);
+  });
+
+  it('exposes structured getter instruction and field provenance', () => {
+    const flows = getterFlows();
+    const income = flows.find((flow) => flow.owner === 'legacy.model.Applicant' && flow.method === 'getIncome');
+    expect(income).toBeDefined();
+    expect(income?.fieldsRead).toEqual(['annualIncome']);
+    expect(income?.labels).toEqual(expect.arrayContaining(['BIPUSH', 'IDIV']));
+    expect(income?.instructions.find((instruction) => instruction.mnemonic === 'bipush')?.operand).toBe('12');
+    const incomeTrace = dataflow().trace.find((entry) =>
+      entry.line.startsWith(`getter ${income?.owner}.${income?.method}${income?.descriptor} returns [`),
+    );
+    expect(income?.sourceOffsets).toEqual(incomeTrace?.instructionOffsets);
+
+    const creditScore = flows.find((flow) => flow.owner === 'legacy.model.Applicant' && flow.method === 'getCredScr');
+    expect(creditScore?.fieldsRead).toEqual(['creditScore']);
   });
 
   it('matches both evidence goldens and traces every CSV record', () => {

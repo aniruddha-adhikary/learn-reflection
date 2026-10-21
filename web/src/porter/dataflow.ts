@@ -1,4 +1,4 @@
-import { analyzeSources, decode, parseMethodDescriptor, producersOf, type ClassFile, type Instruction, type MemberInfo, type Source } from '../jvm';
+import { analyzeSources, decode, parseMethodDescriptor, producersOf, type ClassFile, type Instruction, type InstructionOperand, type MemberInfo, type ResolvedConstant, type Source } from '../jvm';
 import type { ClassBytes, ParsedClasses } from './common';
 import { methodOf, parseClasses } from './common';
 import { decodeCourseClasses } from '../course-data';
@@ -16,8 +16,81 @@ export interface DataflowResult {
   readonly trace: readonly DataflowTrace[];
 }
 
+export interface FlowInstruction {
+  readonly offset: number;
+  readonly mnemonic: string;
+  readonly operand: string;
+}
+
+export interface GetterFlow {
+  readonly owner: string;
+  readonly method: string;
+  readonly descriptor: string;
+  readonly instructions: readonly FlowInstruction[];
+  readonly sourceOffsets: readonly number[];
+  readonly labels: readonly string[];
+  readonly fieldsRead: readonly string[];
+}
+
 export function dataflow(bytes: ClassBytes = decodeCourseClasses()): DataflowResult {
   return dataflowFromParsed(parseClasses(bytes));
+}
+
+export function getterFlows(bytes?: ClassBytes): readonly GetterFlow[] {
+  return getterFlowsFromParsed(parseClasses(bytes));
+}
+
+type GetterFlowEntry =
+  | { readonly kind: 'flow'; readonly flow: GetterFlow }
+  | { readonly kind: 'finding'; readonly owner: string; readonly method: string; readonly message: string };
+
+class GetterFlowAnalysisError extends Error {
+  public constructor(public readonly entries: readonly GetterFlowEntry[]) {
+    super('Unable to analyze one or more getter methods');
+    this.name = 'GetterFlowAnalysisError';
+  }
+}
+
+export function getterFlowsFromParsed(classes: ParsedClasses): readonly GetterFlow[] {
+  const entries: GetterFlowEntry[] = [];
+  for (const internalName of legacyModelOrder) {
+    const owner = requireClass(classes, internalName);
+    for (const method of owner.methods) {
+      if (!method.name.startsWith('get') && !method.name.startsWith('is')) continue;
+      const code = codeOf(method);
+      if (!code) continue;
+      const instructions = decode(code.code, owner.constantPool);
+      try {
+        const frames = analyzeSources(owner, method);
+        const provenance = returnedProvenance(owner, instructions, frames);
+        entries.push({
+          kind: 'flow',
+          flow: {
+            owner: owner.thisClass.replaceAll('/', '.'),
+            method: method.name,
+            descriptor: method.descriptor,
+            instructions: instructions.map((instruction) => ({
+              offset: instruction.offset,
+              mnemonic: instruction.mnemonic,
+              operand: instructionOperand(instruction.operands),
+            })),
+            sourceOffsets: provenance.offsets,
+            labels: provenance.labels,
+            fieldsRead: fieldsRead(owner, instructions, provenance.offsets),
+          },
+        });
+      } catch (error) {
+        entries.push({
+          kind: 'finding',
+          owner: owner.thisClass.replaceAll('/', '.'),
+          method: method.name,
+          message: errorMessage(error),
+        });
+      }
+    }
+  }
+  if (entries.some((entry) => entry.kind === 'finding')) throw new GetterFlowAnalysisError(entries);
+  return entries.flatMap((entry) => entry.kind === 'flow' ? [entry.flow] : []);
 }
 
 export function dataflowFromParsed(classes: ParsedClasses): DataflowResult {
@@ -32,26 +105,19 @@ export function dataflowFromParsed(classes: ParsedClasses): DataflowResult {
     });
   };
 
-  for (const internalName of legacyModelOrder) {
-    const owner = requireClass(classes, internalName);
-    for (const method of owner.methods) {
-      if (!method.name.startsWith('get') && !method.name.startsWith('is')) continue;
-      const code = codeOf(method);
-      if (!code) continue;
-      const instructions = decode(code.code, owner.constantPool);
-      try {
-        const frames = analyzeSources(owner, method);
-        for (const [index, instruction] of instructions.entries()) {
-          const frame = frames[index];
-          if (!isReturn(instruction.opcode) || !frame || frame.stack.length === 0) continue;
-          const indices = producersOf(frames, index, 0);
-          const provenance = provenanceFor(instructions, frames, indices);
-          const line = `getter ${owner.thisClass.replaceAll('/', '.')}.${method.name}${method.descriptor} returns [${provenance.labels.join(', ')}]`;
-          add(line, provenance.offsets);
-        }
-      } catch (error) {
-        add(`FINDING unresolved getter dataflow ${owner.thisClass.replaceAll('/', '.')}.${method.name}: ${errorMessage(error)}`, []);
-      }
+  let getterEntries: readonly GetterFlowEntry[];
+  try {
+    getterEntries = getterFlowsFromParsed(classes).map((flow) => ({ kind: 'flow', flow }));
+  } catch (error) {
+    if (!(error instanceof GetterFlowAnalysisError)) throw error;
+    getterEntries = error.entries;
+  }
+  for (const entry of getterEntries) {
+    if (entry.kind === 'flow') {
+      const { flow } = entry;
+      add(`getter ${flow.owner}.${flow.method}${flow.descriptor} returns [${flow.labels.join(', ')}]`, flow.sourceOffsets);
+    } else {
+      add(`FINDING unresolved getter dataflow ${entry.owner}.${entry.method}: ${entry.message}`, []);
     }
   }
 
@@ -163,6 +229,65 @@ function provenanceFor(
     labels: [...labels].sort(),
     offsets: [...offsets].sort((left, right) => left - right),
   };
+}
+
+function fieldsRead(
+  owner: ClassFile,
+  instructions: readonly Instruction[],
+  sourceOffsets: readonly number[],
+): readonly string[] {
+  const offsets = new Set(sourceOffsets);
+  const fields = new Set<string>();
+  for (const instruction of instructions) {
+    if (!offsets.has(instruction.offset)) continue;
+    const operand = instruction.operands.find((item) => item.kind === 'constant');
+    if (
+      operand?.kind === 'constant' &&
+      operand.constant.kind === 'fieldRef' &&
+      operand.constant.owner === owner.thisClass
+    ) {
+      fields.add(operand.constant.name);
+    }
+  }
+  return [...fields];
+}
+
+function instructionOperand(operands: readonly InstructionOperand[]): string {
+  return operands.map(formatInstructionOperand).filter(Boolean).join(', ');
+}
+
+function formatInstructionOperand(operand: InstructionOperand): string {
+  switch (operand.kind) {
+    case 'immediate': return String(operand.value);
+    case 'local': return String(operand.index);
+    case 'increment': return `${operand.index}, ${operand.amount}`;
+    case 'branchTarget': return String(operand.target);
+    case 'constant': return formatConstant(operand.constant);
+    case 'dimensions': return String(operand.count);
+    case 'invokeCount': return String(operand.count);
+    case 'wideOpcode': return operand.mnemonic;
+    case 'switch':
+      return [
+        `default: ${operand.defaultTarget}`,
+        ...operand.cases.map(({ key, target }) => `${key}: ${target}`),
+      ].join(', ');
+  }
+}
+
+function formatConstant(constant: ResolvedConstant): string {
+  switch (constant.kind) {
+    case 'integer':
+    case 'float':
+    case 'long':
+    case 'double': return String(constant.value);
+    case 'string': return JSON.stringify(constant.value);
+    case 'class': return constant.name;
+    case 'fieldRef': return `${constant.owner}.${constant.name}`;
+    case 'methodRef': return `${constant.owner}.${constant.name}${constant.descriptor}`;
+    case 'methodHandle': return formatConstant(constant.reference);
+    case 'methodType': return constant.descriptor;
+    case 'dynamic': return `${constant.name}${constant.descriptor}`;
+  }
 }
 
 function consumedStackDepths(instruction: Instruction): number[] {
