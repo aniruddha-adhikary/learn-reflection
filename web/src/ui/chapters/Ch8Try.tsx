@@ -22,7 +22,8 @@ const RUN: readonly Line[] = [
   { cmd: './gradlew :porter:run --args=all' },
   { out: 'facts      read the old code: fields, getters, rules', tone: 'muted' },
   { out: 'transform  10 old rules → 12 filled-in templates, 1 odd one out', tone: 'muted' },
-  { out: 'gate       every AI-proposed link has evidence ✓', tone: 'ok' },
+  { out: 'gate       the filled-in templates only use allowed pieces ✓', tone: 'ok' },
+  { out: 'evidence   every AI-suggested link matches real records ✓', tone: 'ok' },
   { out: 'fuzz       old vs new agree on every generated case ✓', tone: 'ok' },
 ];
 
@@ -68,8 +69,8 @@ const EXERCISES: readonly Exercise[] = [
   {
     title: 'Catch the AI making a mistake',
     what: 'Swap in a set of AI suggestions that contains one wrong link, and watch the checks stop it.',
-    human: 'Open playground/data/bindings.ai-mistake.json next to bindings.ai.json and spot the difference. Copy the mistake file over bindings.ai.json, then run ./gradlew :porter:run --args=gate and --args=fuzz.',
-    agent: 'In playground/, replace data/bindings.ai.json with data/bindings.ai-mistake.json. Run ./gradlew :porter:run --args=gate and ./gradlew :porter:run --args=fuzz. Explain in plain words which link was wrong and how each check caught it. Then restore the original file with git checkout.',
+    human: 'Open playground/data/bindings.ai-mistake.json next to bindings.ai.json and spot the difference. Then run ./gradlew :porter:run --args="evidence --bindings data/bindings.ai-mistake.json" and the same with fuzz instead of evidence.',
+    agent: 'In playground/, run ./gradlew :porter:run --args="evidence --bindings data/bindings.ai-mistake.json" and ./gradlew :porter:run --args="fuzz --bindings data/bindings.ai-mistake.json". Explain in plain words which link was wrong, which applications showed it, and how each check caught it.',
   },
   {
     title: 'Rename something in the old system',
