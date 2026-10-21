@@ -1,0 +1,98 @@
+{
+  "internalName": "fixtures/ValueHolder",
+  "constantPoolKinds": [
+    null,
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "fieldRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "string",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "<init>",
+      "descriptor": "(I)V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "iload_1"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "getValue",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "ireturn"
+        }
+      ]
+    },
+    {
+      "name": "getLabel",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "ldc"
+        },
+        {
+          "offset": 2,
+          "mnemonic": "areturn"
+        }
+      ]
+    }
+  ]
+}

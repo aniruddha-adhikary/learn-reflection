@@ -1,0 +1,77 @@
+{
+  "internalName": "fixtures/BaseValue",
+  "constantPoolKinds": [
+    null,
+    "methodRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "fieldRef",
+    "class",
+    "nameAndType",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "<init>",
+      "descriptor": "()V",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "invokespecial"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 5,
+          "mnemonic": "iconst_5"
+        },
+        {
+          "offset": 6,
+          "mnemonic": "putfield"
+        },
+        {
+          "offset": 9,
+          "mnemonic": "return"
+        }
+      ]
+    },
+    {
+      "name": "getBase",
+      "descriptor": "()I",
+      "instructions": [
+        {
+          "offset": 0,
+          "mnemonic": "aload_0"
+        },
+        {
+          "offset": 1,
+          "mnemonic": "getfield"
+        },
+        {
+          "offset": 4,
+          "mnemonic": "ireturn"
+        }
+      ]
+    }
+  ]
+}

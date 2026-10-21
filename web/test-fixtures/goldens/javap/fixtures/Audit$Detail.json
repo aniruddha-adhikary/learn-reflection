@@ -1,0 +1,28 @@
+{
+  "internalName": "fixtures/Audit$Detail",
+  "constantPoolKinds": [
+    null,
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "utf8",
+    "class",
+    "utf8",
+    "utf8",
+    "utf8"
+  ],
+  "methods": [
+    {
+      "name": "value",
+      "descriptor": "()Ljava/lang/String;",
+      "instructions": []
+    }
+  ]
+}
