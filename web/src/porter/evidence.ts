@@ -85,7 +85,18 @@ export function evidence(
   return { bindings: courseSourceName(bindings), data: result, trace: traces };
 }
 
-function applicationFromCsv(jvm: Jvm, record: Readonly<Record<string, string>>): JObject {
+export function courseRecordByAppId(csv: string, appId: string): Readonly<Record<string, string>> {
+  const rows = csvRows(csv);
+  const header = rows[0];
+  if (!header) throw new Error('Course CSV has no header');
+  const appIdIndex = header.indexOf('APP_ID');
+  if (appIdIndex < 0) throw new Error('Course CSV has no APP_ID column');
+  const columns = rows.slice(1).find((row) => row[appIdIndex] === appId);
+  if (!columns) throw new Error(`Unknown appId ${appId}`);
+  return Object.fromEntries(header.map((name, index) => [name, columns[index] ?? '']));
+}
+
+export function applicationFromCsv(jvm: Jvm, record: Readonly<Record<string, string>>): JObject {
   const applicant = construct(jvm, 'legacy/model/Applicant');
   invoke(jvm, 'legacy/model/Applicant', 'setName', '(Ljava/lang/String;)V', applicant, javaString(record.APPL_NAME ?? ''));
   invoke(jvm, 'legacy/model/Applicant', 'setAnnualIncome', '(I)V', applicant, number(record.ANNUAL_INC));
