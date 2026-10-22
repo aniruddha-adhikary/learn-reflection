@@ -5,7 +5,7 @@ import { createMetricReader } from './metrics';
 import { transformFromParsed, type RuleRecord } from './transform';
 import { JavaRandom, javaStringHash } from './java-random';
 
-interface Outcome {
+export interface Outcome {
   readonly codes: readonly string[];
   readonly error: string;
 }
@@ -294,7 +294,11 @@ function legacyOutcome(jvm: Jvm, className: string, application: JObject): Outco
   }
 }
 
-function modernOutcome(rules: readonly RuleRecord[], event: CourseEvent, scores: ReadonlyMap<string, number>): Outcome {
+export function modernOutcome(
+  rules: readonly RuleRecord[],
+  event: CourseEvent,
+  scores: ReadonlyMap<string, number>,
+): Outcome {
   const codes: string[] = [];
   const metric = createMetricReader(event, (applicantId) => {
     const score = scores.get(applicantId);

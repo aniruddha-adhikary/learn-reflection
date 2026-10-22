@@ -65,7 +65,7 @@ export type ElementValue =
   | { readonly kind: 'array'; readonly values: readonly ElementValue[] };
 
 export type AttributeInfo =
-  | { readonly kind: 'code'; readonly maxStack: number; readonly maxLocals: number; readonly code: Uint8Array; readonly exceptionTable: readonly ExceptionHandler[]; readonly attributes: readonly AttributeInfo[] }
+  | { readonly kind: 'code'; readonly maxStack: number; readonly maxLocals: number; readonly code: Uint8Array; readonly codeOffset: number; readonly originalCodeLength: number; readonly exceptionTable: readonly ExceptionHandler[]; readonly attributes: readonly AttributeInfo[] }
   | { readonly kind: 'lineNumberTable'; readonly entries: readonly { readonly startPc: number; readonly lineNumber: number }[] }
   | { readonly kind: 'localVariableTable' | 'localVariableTypeTable'; readonly entries: readonly { readonly startPc: number; readonly length: number; readonly name: string; readonly descriptor: string; readonly index: number }[] }
   | { readonly kind: 'signature'; readonly signature: string }
@@ -94,6 +94,11 @@ export interface ClassFile {
   readonly minorVersion: number;
   readonly majorVersion: number;
   readonly constantPool: readonly (ConstantPoolEntry | null)[];
+  readonly raw: {
+    readonly originalBytes: Uint8Array;
+    readonly constantPoolEnd: number;
+    readonly originalConstantPool: readonly (ConstantPoolEntry | null)[];
+  };
   readonly accessFlags: number;
   readonly thisClass: string;
   readonly superClass: string | null;
