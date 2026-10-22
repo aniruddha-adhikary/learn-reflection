@@ -62,7 +62,12 @@ function Scene({ beat, engineer }: SceneProps) {
           {crashes.length > 0 && (
             <>
               Real traffic includes applications the old system crashes on:{' '}
-              {crashes.map((a) => `${a.appId} (${short(a.legacyThrown?.cls.replaceAll('/', '.') ?? '')}: ${a.legacyThrown?.message ?? ''})`).join(', ')}.{' '}
+              {crashes.map((a) => {
+                const thrown = a.legacyThrown;
+                if (!thrown) throw new Error(`${a.appId} listed as a crash without a thrown exception`);
+                const cls = short(thrown.cls.replaceAll('/', '.'));
+                return `${a.appId} (${thrown.message === '' ? cls : `${cls}: ${thrown.message}`})`;
+              }).join(', ')}.{' '}
               {crashes.every((a) => a.agree)
                 ? 'LoanFlow fails the same way, so the port is faithful, bugs included. Fixing them is a business decision for a person, now with the exact inputs in hand.'
                 : 'LoanFlow does not fail the same way on all of them. Each difference goes to a person with the recorded input attached.'}{' '}
