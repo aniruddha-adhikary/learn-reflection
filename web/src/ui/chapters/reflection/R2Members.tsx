@@ -105,7 +105,7 @@ export const membersChapter: Chapter = {
     { caption: 'getFields only shows public fields. On a well-encapsulated class that list is empty.', ms: 5000 },
     { caption: 'getDeclaredMethods lists the methods: getters, setters and anything else, each with its exact signature.', ms: 6000 },
     { caption: 'The JavaBeans Introspector pairs getters with setters by name. Some don’t pair, which is a clue.', ms: 8000 },
-    { caption: 'Your turn: pick any model class, old or new, and see what reflection finds.', ms: 0 },
+    { caption: 'Your turn: pick any model class, old or new, and see what reflection finds.', ms: 60000 },
   ],
   Scene,
 };
