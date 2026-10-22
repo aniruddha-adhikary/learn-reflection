@@ -2,6 +2,8 @@ import type { Chapter } from './types';
 import { scaleChapter } from '../chapters/Ch1Scale';
 import { worldsChapter } from '../chapters/Ch2Worlds';
 import { namesChapter } from '../chapters/Ch3Names';
+import { machineChapter } from '../chapters/Ch4Machine';
+import { bindingChapter } from '../chapters/Ch5Binding';
 import { Placeholder } from '../chapters/Placeholder';
 import { tryChapter } from '../chapters/Ch8Try';
 
@@ -17,8 +19,8 @@ export const chapters: readonly Chapter[] = [
   scaleChapter,
   worldsChapter,
   namesChapter,
-  soon('bytecode', 'Read the machine', 'Follow values through bytecode'),
-  soon('binding', 'Bind old to new', 'The one job we give to AI'),
+  machineChapter,
+  bindingChapter,
   soon('shape', 'Change the shape, keep the logic', 'Same rule, new data flow'),
   soon('fuzz', 'Prove it', 'Differential fuzzing across two systems'),
   tryChapter,
