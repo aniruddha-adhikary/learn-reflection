@@ -46,10 +46,10 @@ function Scene({ beat, engineer }: SceneProps) {
   }
 
   return (
-    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '280px minmax(0, 1fr)', gap: 20, alignContent: 'safe center' }}>
+    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '360px minmax(0, 1fr)', gap: 20, alignContent: 'safe center' }}>
       <div style={{ display: 'grid', gap: 6, alignContent: 'start' }}>
         {result.rules.map((r) => (
-          <button key={r.ruleId} className={`pill mono ${r.ruleId === pick ? 'ok' : ''}`} style={{ cursor: beat >= 2 ? 'pointer' : 'default', justifySelf: 'start' }} disabled={beat < 2 && r.ruleId !== pick} onClick={() => setPick(r.ruleId)}>
+          <button key={r.ruleId} className={`pill mono ${r.ruleId === pick ? 'ok' : ''}`} style={{ cursor: beat >= 2 ? 'pointer' : 'default', justifySelf: 'start', whiteSpace: 'nowrap', fontSize: 12 }} disabled={beat < 2 && r.ruleId !== pick} onClick={() => setPick(r.ruleId)}>
             {r.ruleId} <span style={{ color: 'var(--muted)' }}>← {r.legacyRule}</span>
           </button>
         ))}
