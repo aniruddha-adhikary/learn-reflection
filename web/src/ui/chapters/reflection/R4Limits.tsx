@@ -10,14 +10,22 @@ function ownerName(flow: GetterFlow): string {
   return flow.owner.replaceAll('/', '.');
 }
 
+function divisor(flow: GetterFlow): string | null {
+  const at = flow.instructions.findIndex((ins) => ins.mnemonic === 'idiv');
+  if (at < 0) return null;
+  const prev = flow.instructions[at - 1];
+  if (prev?.mnemonic !== 'bipush' && prev?.mnemonic !== 'sipush') throw new Error(`${flow.method}: idiv operand is not a constant push`);
+  return prev.operand;
+}
+
 function Instructions({ flow }: { flow: GetterFlow }) {
   return (
     <div style={{ display: 'grid', gap: 4 }}>
       {flow.instructions.map((ins, i) => (
         <motion.div key={ins.offset} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.35 * i }} className="mono" style={{ display: 'grid', gridTemplateColumns: '34px 110px 1fr', fontSize: 14 }}>
           <span style={{ color: 'var(--muted)' }}>{String(ins.offset)}</span>
-          <span style={{ color: ins.mnemonic === 'IDIV' ? RED : VIOLET }}>{ins.mnemonic}</span>
-          <span style={{ color: ins.mnemonic === 'GETFIELD' ? AMBER : '#e8ecff' }}>{ins.operand}</span>
+          <span style={{ color: ins.mnemonic === 'idiv' ? RED : VIOLET }}>{ins.mnemonic.toUpperCase()}</span>
+          <span style={{ color: ins.mnemonic === 'getfield' ? AMBER : '#e8ecff' }}>{ins.operand}</span>
         </motion.div>
       ))}
     </div>
@@ -32,6 +40,7 @@ function Scene({ beat, engineer }: SceneProps) {
   if (!income) throw new Error('getterFlows has no Applicant.getIncome');
   const signature = view.declaredMethods.find((m) => m.name === 'getIncome');
   if (!signature) throw new Error('Applicant has no getIncome');
+  if (divisor(income) === null) throw new Error('Applicant.getIncome has no idiv');
   const monthly = calls[5]?.outcome.ok ? fmt(calls[5].outcome.value) : '?';
   const annual = calls[6]?.outcome.ok ? fmt(calls[6].outcome.value) : '?';
 
@@ -45,15 +54,15 @@ function Scene({ beat, engineer }: SceneProps) {
           {flows.map((f, i) => {
             const m = view.declaredMethods.find((d) => d.name === f.method);
             if (!m) throw new Error(`No reflected method ${f.method}`);
-            const divides = f.instructions.some((ins) => ins.mnemonic === 'IDIV');
+            const divides = divisor(f);
             return (
               <motion.div key={f.method} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 * i }} style={{ display: 'contents' }}>
-                <span className="mono" style={{ color: divides ? RED : '#e8ecff' }}>{f.method}()</span>
+                <span className="mono" style={{ color: divides === null ? '#e8ecff' : RED }}>{f.method}()</span>
                 <span className="mono" style={{ fontSize: 13, color: 'var(--muted)' }}>{m.modifiers.join(' ')} {short(m.returnType)} {m.name}()</span>
                 <span className="mono" style={{ fontSize: 13 }}>
                   reads <b style={{ color: AMBER }}>{f.fieldsRead.join(', ')}</b>
-                  {divides ? <b style={{ color: RED }}> then divides</b> : ''}
-                  {engineer ? <span style={{ color: 'var(--muted)' }}> · {f.instructions.map((ins) => ins.mnemonic).join(' ')}</span> : ''}
+                  {divides === null ? '' : <b style={{ color: RED }}> then divides by {divides}</b>}
+                  {engineer ? <span style={{ color: 'var(--muted)' }}> · {f.instructions.map((ins) => ins.mnemonic.toUpperCase()).join(' ')}</span> : ''}
                 </span>
               </motion.div>
             );
@@ -84,7 +93,7 @@ function Scene({ beat, engineer }: SceneProps) {
           <Code dim>{'ClassReader → MethodNode getIncome()I'}</Code>
           <Instructions flow={income} />
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 * income.instructions.length + 0.2 }} className="mono" style={{ fontSize: 18, color: '#e8ecff' }}>
-            = <span style={{ color: AMBER }}>{income.fieldsRead.join(', ')}</span> <span style={{ color: RED }}>/ 12</span>
+            = <span style={{ color: AMBER }}>{income.fieldsRead.join(', ')}</span> <span style={{ color: RED }}>/ {divisor(income) ?? '?'}</span>
           </motion.div>
         </Panel>
       ) : (
