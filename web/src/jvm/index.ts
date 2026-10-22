@@ -2,6 +2,11 @@ export { ClassFormatError } from './classfile/errors';
 export { parseClassFile } from './classfile/parse';
 export { writeClassFile } from './classfile/write';
 export { redirectPair } from './bytecode/rewrite';
+export {
+  ControlBoundaryError,
+  NoMatchingPairError,
+  StackEffectMismatchError,
+} from './bytecode/rewrite';
 export type {
   BytecodePatch,
   MethodReference,
@@ -59,6 +64,7 @@ export type {
   JvmNative,
   JvmReference,
   JvmValue,
+  JavaThrownDetails,
   InvokeEvent,
   ReturnEvent,
   RunResult,

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { courseData, courseGoldens, decodeCourseClasses } from '../src/course-data';
 import {
   decode,
@@ -7,13 +7,19 @@ import {
   writeClassFile,
   type AttributeInfo,
   type ClassFile,
+  type ReturnEvent,
   type JvmValue,
 } from '../src/jvm';
-import { redirectPair } from '../src/jvm/bytecode/rewrite';
+import {
+  ControlBoundaryError,
+  NoMatchingPairError,
+  StackEffectMismatchError,
+  redirectPair,
+} from '../src/jvm/bytecode/rewrite';
 import { applicationFromCsv, courseRecordByAppId } from '../src/porter/evidence';
 import { getterRecorder, recordReplay } from '../src/porter/instrument-lab';
 import { badTargetDescriptorMessage, defaultRewriteTarget, memberRefs, rewriteLab, visitEvents } from '../src/porter/asm-lab';
-import { parseClasses } from '../src/porter/common';
+import { csvAppIds, csvRows, parseClasses } from '../src/porter/common';
 
 interface AsmLabGolden {
   readonly memberRefs: readonly string[];
@@ -38,12 +44,20 @@ describe('browser ASM and instrumentation labs', () => {
     expect(events.some((event) => event.type === 'visitCode')).toBe(true);
     expect(events.some((event) => event.type === 'visitMethodInsn')).toBe(true);
     expect(events.some((event) => event.type === 'visitMaxs')).toBe(true);
-    const refs = memberRefs('legacy/rules/R01_MinimumScore').flatMap((method) => method.refs);
+    const structuredRefs = memberRefs('legacy/rules/R01_MinimumScore').flatMap((method) => method.refs);
+    const refs = structuredRefs.map(({ text }) => text);
     expect(refs).toEqual(asmLabGolden.memberRefs);
     expect(refs).toContain(
       'INVOKEVIRTUAL legacy/model/LoanApplication.getApplicant ()Llegacy/model/Applicant;',
     );
     expect(refs).toContain('INVOKEVIRTUAL legacy/model/Applicant.getCredScr ()I');
+    expect(structuredRefs.find(({ name }) => name === 'getCredScr')).toEqual({
+      opcode: 'INVOKEVIRTUAL',
+      owner: 'legacy/model/Applicant',
+      name: 'getCredScr',
+      descriptor: '()I',
+      text: 'INVOKEVIRTUAL legacy/model/Applicant.getCredScr ()I',
+    });
   });
 
   it('rewrites every matching rule and compares all course applicants', () => {
@@ -126,6 +140,8 @@ describe('browser ASM and instrumentation labs', () => {
     branchCode[branch.offset + 1] = (displacement >>> 8) & 0xff;
     branchCode[branch.offset + 2] = displacement & 0xff;
     const withBranch = replaceMethodCode(original, method, { ...code, code: branchCode });
+    expect(() => redirectPair(withBranch, target))
+      .toThrow(ControlBoundaryError);
     expect(() => redirectPair(withBranch, target)).toThrow('branch targets second invocation');
 
     const withHandler = replaceMethodCode(original, method, {
@@ -137,9 +153,17 @@ describe('browser ASM and instrumentation labs', () => {
         catchType: null,
       }],
     });
+    expect(() => redirectPair(withHandler, target))
+      .toThrow(ControlBoundaryError);
     expect(() => redirectPair(withHandler, target)).toThrow('exception-handler boundary');
     expect(() => redirectPair(requiredClass(classes, 'legacy/model/Applicant'), target))
+      .toThrow(NoMatchingPairError);
+    expect(() => redirectPair(requiredClass(classes, 'legacy/model/Applicant'), target))
       .toThrow('No matching invocation pair in legacy/model/Applicant');
+    expect(() => redirectPair(original, {
+      ...target,
+      to: { ...target.to, descriptor: '(Llegacy/model/LoanApplication;)J' },
+    })).toThrow(StackEffectMismatchError);
   });
 
   it('supports native-only invokestatic calls and reports invoke and return hooks', () => {
@@ -156,7 +180,7 @@ describe('browser ASM and instrumentation labs', () => {
       args: readonly JvmValue[];
       depth: number;
     }[] = [];
-    const returns: { owner: string; result?: JvmValue; thrown?: string }[] = [];
+    const returns: ReturnEvent[] = [];
     const jvm = new Jvm(patched, {
       onInvoke: (event) => invokes.push(event),
       onReturn: (event) => returns.push(event),
@@ -186,9 +210,15 @@ describe('browser ASM and instrumentation labs', () => {
       throw new Error('native failure');
     });
     expect(() => jvm.invokeMethod('lab/native/Only', 'fail', '()V', null, [])).toThrow('native failure');
+    expect(returns.some(({ owner, name }) => owner === 'lab/native/Only' && name === 'fail')).toBe(false);
+    jvm.defineNative('lab/native/Only', 'throwJava', '()V', () =>
+      jvm.throwException('java/lang/IllegalStateException', 'native Java failure'));
+    expect(() => jvm.invokeMethod('lab/native/Only', 'throwJava', '()V', null, []))
+      .toThrow('native Java failure');
     expect(returns).toContainEqual(expect.objectContaining({
       owner: 'lab/native/Only',
-      thrown: 'native failure',
+      name: 'throwJava',
+      thrown: { cls: 'java/lang/IllegalStateException', message: 'native Java failure' },
     }));
     expect(() => jvm.invokeMethod('lab/native/Missing', 'run', '()V', null, []))
       .toThrow('Class lab/native/Missing is not available in this JVM');
@@ -197,18 +227,19 @@ describe('browser ASM and instrumentation labs', () => {
   it('records actual getter and rule-runner outcomes per course applicant', () => {
     const getters = getterRecorder();
     const r01 = getters.find(({ rule }) => rule === 'R01_MinimumScore');
-    expect(r01?.orderedGetters).toContain('legacy/model/Applicant.getCredScr()I');
+    expect(r01?.orderedGetters).toContainEqual({
+      owner: 'legacy/model/Applicant',
+      name: 'getCredScr',
+      descriptor: '()I',
+    });
     expect(r01?.orderedGetters
-      .filter((getter) => getter.startsWith('legacy/model/Applicant.'))
-      .map((getter) => /\.([^.(]+)\(/.exec(getter)?.[1])).toEqual(asmLabGolden.getterNames);
+      .filter((getter) => getter.owner === 'legacy/model/Applicant')
+      .map(({ name }) => name)).toEqual(asmLabGolden.getterNames);
     expect(r01?.staticOnly).toEqual([]);
     expect(r01?.dynamicOnly).toEqual([]);
     expect(getters.map(({ rule, orderedGetters }) => [
       rule,
-      orderedGetters.map((getter) => {
-        const methodStart = getter.lastIndexOf('.') + 1;
-        return getter.slice(methodStart, getter.indexOf('('));
-      }),
+      orderedGetters.map(({ name }) => name),
     ])).toEqual([
       ['R01_MinimumScore', ['getApplicant', 'getCredScr']],
       ['R02_DebtToIncome', ['getApplicant', 'getDebt', 'getIncome']],
@@ -227,24 +258,69 @@ describe('browser ASM and instrumentation labs', () => {
 
     const replay = recordReplay();
     expect(replay.applicants).toHaveLength(12);
-    const traffic = replay.applicants.map(({ appId, codes, legacyError }) =>
-      legacyError.length > 0
-        ? `${appId} ERROR ${errorType(legacyError)}`
+    const traffic = replay.applicants.map(({ appId, codes, legacyThrown }) =>
+      legacyThrown !== null
+        ? `${appId} ERROR ${legacyThrown.cls.slice(legacyThrown.cls.lastIndexOf('/') + 1)}`
         : `${appId} [${codes.join(', ')}]`);
     expect(traffic).toEqual(asmLabGolden.traffic.map((line) =>
       line.includes(' ERROR ') ? line.slice(0, line.indexOf(':')) : line));
     expect(replay.agreeCount + replay.disagreeCount).toBe(12);
-    expect(replay.agreeCount).toBe(10);
-    expect(replay.disagreeCount).toBe(2);
-    expect(replay.applicants.filter(({ agree }) => !agree).map(({ appId }) => appId)).toEqual(['A-1007', 'A-1009']);
+    expect(replay.agreeCount).toBe(12);
+    expect(replay.disagreeCount).toBe(0);
+    expect(replay.applicants.every(({ agree }) => agree)).toBe(true);
+    expect(replay.applicants.find(({ appId }) => appId === 'A-1007')?.legacyThrown).toEqual({
+      cls: 'java/lang/ArithmeticException',
+      message: '/ by zero',
+    });
   }, 60_000);
-});
 
-function errorType(error: string): string {
-  const boundary = error.indexOf(':');
-  const name = boundary < 0 ? error : error.slice(0, boundary);
-  return name.slice(name.lastIndexOf('/') + 1);
-}
+  it('propagates internal JVM errors from rule execution in both recorders', () => {
+    type InvokeImpl = (
+      this: Jvm,
+      owner: string,
+      name: string,
+      descriptor: string,
+      args: readonly JvmValue[],
+      receiver: JvmValue,
+      depth: number,
+      initialize: boolean,
+    ) => JvmValue;
+    const prototype = Jvm.prototype as unknown as { invokeImpl: InvokeImpl };
+    const original = prototype.invokeImpl;
+    const spy = vi.spyOn(prototype, 'invokeImpl').mockImplementation(function (
+      this: Jvm,
+      owner: string,
+      name: string,
+      descriptor: string,
+      args: readonly JvmValue[],
+      receiver: JvmValue,
+      depth: number,
+      initialize: boolean,
+    ) {
+      if (owner === 'legacy/rules/R01_MinimumScore' && name === 'execute') {
+        throw new Error('internal JVM failure');
+      }
+      return original.call(this, owner, name, descriptor, args, receiver, depth, initialize);
+    });
+    try {
+      expect(() => recordReplay()).toThrow('internal JVM failure');
+      expect(() => getterRecorder()).toThrow('internal JVM failure');
+    } finally {
+      spy.mockRestore();
+    }
+  });
+
+  it('parses quoted CSV cells and validates the APP_ID column by header index', () => {
+    const csv = 'APPL_NAME,APP_ID,NOTE\r\n"Doe, Jane",A-42,"note, with comma"\r\n';
+    expect(csvRows(csv)).toEqual([
+      ['APPL_NAME', 'APP_ID', 'NOTE'],
+      ['Doe, Jane', 'A-42', 'note, with comma'],
+    ]);
+    expect(csvAppIds(csv)).toEqual([{ appId: 'A-42' }]);
+    expect(() => csvAppIds('APP_ID,NOTE\n,A\n')).toThrow('Missing APP_ID in CSV row 2');
+    expect(() => csvAppIds('APP,NOTE\nA,B\n')).toThrow('Course CSV has no APP_ID column');
+  });
+});
 
 function replaceMethodCode(
   original: ClassFile,

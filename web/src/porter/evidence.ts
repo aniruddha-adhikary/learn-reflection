@@ -1,6 +1,6 @@
 import { Jvm, Reflection, type JObject, type JString, type JvmValue } from '../jvm';
 import { courseData, type CourseBinding, type CourseBindings, type CourseEvent } from '../course-data';
-import { courseSourceName, parseClasses } from './common';
+import { courseSourceName, csvRows, parseClasses } from './common';
 
 export interface EvidenceRow {
   readonly legacyField: string;
@@ -35,6 +35,8 @@ export function evidence(
   const rows = csvRows(data.csv);
   const header = rows[0];
   if (!header) throw new Error('Course CSV has no header');
+  const appIdIndex = header.indexOf('APP_ID');
+  if (appIdIndex < 0) throw new Error('Course CSV has no APP_ID column');
   const indexes = new Map(header.map((name, index) => [name, index]));
   const events = new Map(data.events.map((event) => [event.id, event]));
   const traces: EvidenceTrace[] = [];
@@ -42,9 +44,10 @@ export function evidence(
     let matches = 0;
     let firstRecordId = '';
     let firstDifference = '';
-    for (const columns of rows.slice(1)) {
+    for (const [rowIndex, columns] of rows.slice(1).entries()) {
       const record = Object.fromEntries([...indexes].map(([name, index]) => [name, columns[index] ?? '']));
-      const id = record.APP_ID ?? '';
+      const id = columns[appIdIndex];
+      if (!id) throw new Error(`Missing APP_ID in CSV row ${rowIndex + 2}`);
       const event = events.get(id);
       if (!event) throw new Error(`Missing modern event ${id}`);
       const app = applicationFromCsv(jvm, record);
@@ -187,37 +190,6 @@ function plainValue(value: JvmValue): unknown {
 
 function javaString(value: string): JString {
   return { kind: 'string', cls: 'java/lang/String', value, fields: new Map() };
-}
-
-function csvRows(text: string): string[][] {
-  const rows: string[][] = [];
-  let row: string[] = [];
-  let cell = '';
-  let quoted = false;
-  for (let index = 0; index < text.length; index += 1) {
-    const character = text[index];
-    if (character === undefined) continue;
-    if (character === '"') {
-      if (quoted && text[index + 1] === '"') {
-        cell += '"';
-        index += 1;
-      } else quoted = !quoted;
-    } else if (character === ',' && !quoted) {
-      row.push(cell);
-      cell = '';
-    } else if ((character === '\n' || character === '\r') && !quoted) {
-      if (character === '\r' && text[index + 1] === '\n') index += 1;
-      row.push(cell);
-      if (row.some((value) => value.length > 0)) rows.push(row);
-      row = [];
-      cell = '';
-    } else cell += character;
-  }
-  if (cell.length > 0 || row.length > 0) {
-    row.push(cell);
-    rows.push(row);
-  }
-  return rows;
 }
 
 function number(value: string | undefined): number {
