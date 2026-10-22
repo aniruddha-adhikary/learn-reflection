@@ -228,7 +228,7 @@ export class Jvm {
         descriptor,
         pc: instruction.offset,
         insnIndex: pcIndex,
-        locals: locals.map((slot) => slot?.value ?? null),
+        locals: locals.map((slot) => slot?.value),
         stack: stack.map((slot) => slot.value),
         depth,
       });

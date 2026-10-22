@@ -5,7 +5,7 @@ import {
   decodeCourseClasses,
 } from '../src/course-data';
 import { Jvm, parseClassFile, type JObject } from '../src/jvm';
-import { dataflow, evidence, facts, fuzz, getterFlows, inert, JavaRandom, transform } from '../src/porter';
+import { dataflow, evidence, facts, fuzz, getterFlows, inert, JavaRandom, ruleSteps, transform } from '../src/porter';
 
 function parsedCourseClasses() {
   const classes = new Map<string, ReturnType<typeof parseClassFile>>();
@@ -52,6 +52,22 @@ describe('browser porter parity with Java command goldens', () => {
 
     const creditScore = flows.find((flow) => flow.owner === 'legacy.model.Applicant' && flow.method === 'getCredScr');
     expect(creditScore?.fieldsRead).toEqual(['creditScore']);
+  });
+
+  it('steps through a legacy rule with pre-instruction stack and nested getter traces', () => {
+    const rejected = ruleSteps('R01_MinimumScore', 'A-1002');
+    expect(rejected.codes).toContain('DECLINE_LOW_SCORE');
+    const rootSteps = rejected.steps.filter((step) => step.depth === 0);
+    const pushThreshold = rootSteps.findIndex((step) => step.mnemonic === 'sipush' && step.operand === '580');
+    expect(pushThreshold).toBeGreaterThanOrEqual(0);
+    const comparison = rootSteps.slice(pushThreshold + 1).find((step) => step.mnemonic === 'if_icmpge');
+    expect(comparison?.stack.slice(-2)).toEqual(['575', '580']);
+    expect(rejected.steps.some((step) => step.depth === 1 && step.method === 'getCredScr')).toBe(true);
+
+    const approved = ruleSteps('R01_MinimumScore', 'A-1001');
+    expect(approved.codes).not.toContain('DECLINE_LOW_SCORE');
+    expect(() => ruleSteps('R99_Unknown', 'A-1001')).toThrow('Unknown rule R99_Unknown');
+    expect(() => ruleSteps('R01_MinimumScore', 'A-9999')).toThrow('Unknown appId A-9999');
   });
 
   it('matches both evidence goldens and traces every CSV record', () => {

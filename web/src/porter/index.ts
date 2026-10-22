@@ -13,5 +13,6 @@ export { transform, transformFromParsed, type TransformResult, type RuleRecord }
 export { evidence, type EvidenceResult, type EvidenceRow, type EvidenceTrace } from './evidence';
 export { fuzz, evaluateCondition, type FuzzResult, type FuzzData, type FuzzCaseTrace } from './fuzz';
 export { inert, type InertResult } from './inert';
+export { ruleSteps, type RuleRun, type RuleStep } from './steps';
 export { JavaRandom, javaStringHash } from './java-random';
 export type { ClassBytes, ParsedClasses } from './common';
