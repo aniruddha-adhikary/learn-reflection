@@ -14,5 +14,24 @@ export { evidence, type EvidenceResult, type EvidenceRow, type EvidenceTrace } f
 export { fuzz, evaluateCondition, type FuzzResult, type FuzzData, type FuzzCaseTrace } from './fuzz';
 export { inert, type InertResult } from './inert';
 export { ruleSteps, type RuleRun, type RuleStep } from './steps';
+export {
+  APPLICANT_COLUMNS,
+  buildFromRow,
+  classView,
+  courseClassNames,
+  implementors,
+  invokeLab,
+  proxyLab,
+  type ClassView,
+  type LabCall,
+  type LabValue,
+  type MemberView,
+  type MethodView,
+  type PropertyView,
+  type ProxyEvent,
+  type ProxyRun,
+  type RowBinding,
+  type RowBuild,
+} from './reflect-lab';
 export { JavaRandom, javaStringHash } from './java-random';
 export type { ClassBytes, ParsedClasses } from './common';

@@ -1,9 +1,10 @@
 import { useState } from 'react';
-import { chapters } from './course/chapters';
 import { useHash } from './course/hashRoute';
 import { useBeats } from './course/useBeats';
 import { BeatBar } from './components/BeatBar';
 import type { Chapter } from './course/types';
+import { Landing } from './Landing';
+import { chapterHref, parseRoute } from './course/route';
 
 function ChapterStage({ chapter, number, engineer }: { chapter: Chapter; number: number; engineer: boolean }) {
   const ctl = useBeats(chapter.beats);
@@ -23,18 +24,28 @@ function ChapterStage({ chapter, number, engineer }: { chapter: Chapter; number:
 }
 
 export function App() {
-  const route = useHash();
+  const route = parseRoute(useHash());
   const [engineer, setEngineer] = useState(false);
-  const index = Math.max(0, chapters.findIndex((c) => c.id === route));
-  const chapter = chapters[index] ?? chapters[0];
-  if (chapter === undefined) throw new Error('No chapters registered');
+  if (route.kind === 'landing') return <Landing />;
+  if (route.kind === 'notFound') {
+    return (
+      <main className="not-found">
+        <div className="kicker">Not found</div>
+        <h1>We couldn’t find that course page.</h1>
+        <p className="mono">{route.path}</p>
+        <a className="course-link" href="#/">Back to courses</a>
+      </main>
+    );
+  }
+
+  const { course, index } = route;
+  const chapter = course.chapters[index];
+  if (chapter === undefined) throw new Error(`No chapter ${index} registered for ${course.id}`);
 
   return (
     <div className="app">
       <div className="topbar">
-        <div className="brand">
-          Modernize <span>by reflection</span>
-        </div>
+        <a className="brand" href="#/">{course.title}</a>
         <div className="spacer" />
         <div className="mode-toggle" role="group" aria-label="Detail level">
           <button aria-pressed={!engineer} onClick={() => setEngineer(false)}>
@@ -46,8 +57,8 @@ export function App() {
         </div>
       </div>
       <nav className="rail" aria-label="Chapters">
-        {chapters.map((c, i) => (
-          <a key={c.id} href={`#/${c.id}`} aria-current={c.id === chapter.id ? 'page' : undefined}>
+        {course.chapters.map((c, i) => (
+          <a key={c.id} href={chapterHref(course, c)} aria-current={i === index ? 'page' : undefined}>
             <span className="num">{i + 1}</span>
             <span>
               <div className="t">{c.title}</div>
@@ -56,7 +67,7 @@ export function App() {
           </a>
         ))}
       </nav>
-      <ChapterStage key={chapter.id} chapter={chapter} number={index + 1} engineer={engineer} />
+      <ChapterStage key={`${course.id}:${chapter.id}`} chapter={chapter} number={index + 1} engineer={engineer} />
     </div>
   );
 }
