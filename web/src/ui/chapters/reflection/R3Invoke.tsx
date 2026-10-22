@@ -124,7 +124,7 @@ export const invokeChapter: Chapter = {
     { caption: 'setAccessible(true) opts out of the check. Now the private value comes out.', ms: 5000 },
     { caption: 'Field.set writes into the object; the getter sees the new value straight away.', ms: 6000 },
     { caption: 'Call getIncome and read annualIncome. They disagree, and reflection alone can’t say why.', ms: 7000 },
-    { caption: 'Put it together: build an applicant from a CSV row using only setters reflection found. Pick any row.', ms: 0 },
+    { caption: 'Put it together: build an applicant from a CSV row using only setters reflection found. Pick any row.', ms: 60000 },
   ],
   Scene,
 };

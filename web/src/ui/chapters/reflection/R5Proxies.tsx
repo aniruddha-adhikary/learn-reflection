@@ -133,8 +133,8 @@ export const proxiesChapter: Chapter = {
   beats: [
     { caption: 'Proxy.newProxyInstance makes an object that implements an interface at run time. Every call goes to one handler.', ms: 7000 },
     { caption: 'Follow one call: the runner calls the proxy, the handler logs it, then passes it on to the real rule.', ms: 8000 },
-    { caption: 'Your turn: wrap all 11 rules at once and run any applicant. Same answers, now with a log.', ms: 0 },
-    { caption: 'Turn it around: a proxy for a service that trips if called. It proves the lazy engine leaves the credit bureau alone.', ms: 0 },
+    { caption: 'Your turn: wrap all 11 rules at once and run any applicant. Same answers, now with a log.', ms: 60000 },
+    { caption: 'Turn it around: a proxy for a service that trips if called. It proves the lazy engine leaves the credit bureau alone.', ms: 60000 },
   ],
   Scene,
 };

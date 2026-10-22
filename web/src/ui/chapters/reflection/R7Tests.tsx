@@ -87,7 +87,7 @@ export const testsChapter: Chapter = {
   beats: [
     { caption: 'For each rule: reflection says which fields it reads and their types; bytecode gives the numbers it compares against.', ms: 8000 },
     { caption: 'Turn those into test inputs, right around every threshold. Hundreds of cases, nobody typed them.', ms: 7000 },
-    { caption: 'Your turn: pick a rule and see its inputs and every case it got. Green means old and new agree.', ms: 0 },
+    { caption: 'Your turn: pick a rule and see its inputs and every case it got. Green means old and new agree.', ms: 60000 },
   ],
   Scene,
 };

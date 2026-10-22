@@ -118,7 +118,7 @@ export const classesChapter: Chapter = {
     { caption: 'Every class the JVM loads is described by one Class object. Here are all of them from both systems.', ms: 6000 },
     { caption: 'Class.forName turns a name into that object. Ask it what kind of thing it is, what it extends, what it implements.', ms: 7000 },
     { caption: 'Now ask every class one question: do you implement Rule? Only the real rules light up.', ms: 7000 },
-    { caption: 'Your turn: click any class, or pick one from the list, and read its Class object.', ms: 0 },
+    { caption: 'Your turn: click any class, or pick one from the list, and read its Class object.', ms: 60000 },
   ],
   Scene,
 };

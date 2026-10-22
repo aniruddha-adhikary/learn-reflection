@@ -102,8 +102,8 @@ export const labChapter: Chapter = {
   title: 'Lab',
   subtitle: 'Write your own reflection tools',
   beats: [
-    { caption: 'Clone the playground. Three small classes are waiting for you, each with a test.', ms: 0 },
-    { caption: 'Your turn: pick VS Code or an AI agent. The expected output is computed live from the real classes.', ms: 0 },
+    { caption: 'Clone the playground. Three small classes are waiting for you, each with a test.', ms: 60000 },
+    { caption: 'Your turn: pick VS Code or an AI agent. The expected output is computed live from the real classes.', ms: 60000 },
   ],
   Scene,
 };

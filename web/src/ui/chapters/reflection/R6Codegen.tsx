@@ -77,7 +77,7 @@ export const codegenChapter: Chapter = {
   beats: [
     { caption: 'Reflection lists the rules; each one is matched to a template. The one that fits nothing is reported, not guessed.', ms: 8000 },
     { caption: 'Each generated rule is plain data the new engine loads. Run the generator again and you get exactly the same output.', ms: 7000 },
-    { caption: 'Your turn: click any generated rule to see what came out.', ms: 0 },
+    { caption: 'Your turn: click any generated rule to see what came out.', ms: 60000 },
   ],
   Scene,
 };

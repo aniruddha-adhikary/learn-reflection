@@ -113,7 +113,7 @@ export const limitsChapter: Chapter = {
     { caption: 'Reflection tells you getIncome exists and returns an int. What it does inside is invisible.', ms: 6000 },
     { caption: 'Calling it gives a number, not a reason. One sample can’t prove a rule.', ms: 6000 },
     { caption: 'Read the bytecode instead: load the field, push 12, divide. Now it’s a fact, not a guess.', ms: 8000 },
-    { caption: 'Every getter, both views side by side. Reflection finds, bytecode explains.', ms: 0 },
+    { caption: 'Every getter, both views side by side. Reflection finds, bytecode explains.', ms: 60000 },
   ],
   Scene,
 };
