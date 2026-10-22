@@ -84,7 +84,7 @@ function Scene({ beat, engineer }: SceneProps) {
   const selected = picked && result.trace.includes(picked) ? picked : result.trace.find((t) => !t.agree) ?? null;
   const rules = [...new Set(result.data.disagreements.map((d) => d.rule))];
   return (
-    <div style={{ height: '100%', display: 'grid', alignContent: 'center', gap: 14 }}>
+    <div style={{ height: '100%', display: 'grid', alignContent: 'safe center', gap: 14 }}>
       {beat === 0 && <Flow />}
       {beat === 1 && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ fontSize: 20, lineHeight: 1.6, maxWidth: 760 }}>

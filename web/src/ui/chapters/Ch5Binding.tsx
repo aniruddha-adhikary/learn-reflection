@@ -107,7 +107,7 @@ function Scene({ beat, engineer }: SceneProps) {
   const rejected = result.data.filter((r) => r.status === 'REJECTED');
   const selected = picked && result.trace.includes(picked) ? picked : result.trace.find((t) => !t.agree) ?? null;
   return (
-    <div style={{ height: '100%', display: 'grid', alignContent: 'center', gap: 16 }}>
+    <div style={{ height: '100%', display: 'grid', alignContent: 'safe center', gap: 16 }}>
       {beat <= 1 ? (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 24, alignItems: 'center' }}>
           <div>
@@ -153,9 +153,16 @@ function Scene({ beat, engineer }: SceneProps) {
               )}
             </div>
           )}
-          {beat >= 3 && <Proposal key={which} bindings={courseBindings[which]} highlight={which === 'mistake'} />}
+          {beat >= 3 && (
+            <>
+              <Proposal key={`proposal-${which}`} bindings={{ ...courseBindings[which], bindings: courseBindings[which].bindings.filter((b) => b.values !== undefined) }} highlight={which === 'mistake'} />
+              <span style={{ color: 'var(--muted)', fontSize: 13 }}>
+                plus {String(courseBindings[which].bindings.filter((b) => b.values === undefined).length)} plain field links, same in both proposals
+              </span>
+            </>
+          )}
           <div className="kicker" style={{ color: GREEN }}>Checked against all 12 applicants, old system vs new system</div>
-          <Grid key={which} result={result} onPick={setPicked} picked={selected} />
+          <Grid key={`grid-${which}`} result={result} onPick={setPicked} picked={selected} />
           <div style={{ minHeight: 48 }}>
             {selected && (
               <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }}>
