@@ -4,16 +4,9 @@ import { worldsChapter } from '../chapters/Ch2Worlds';
 import { namesChapter } from '../chapters/Ch3Names';
 import { machineChapter } from '../chapters/Ch4Machine';
 import { bindingChapter } from '../chapters/Ch5Binding';
-import { Placeholder } from '../chapters/Placeholder';
+import { shapeChapter } from '../chapters/Ch6Shape';
+import { fuzzChapter } from '../chapters/Ch7Fuzz';
 import { tryChapter } from '../chapters/Ch8Try';
-
-const soon = (id: string, title: string, subtitle: string): Chapter => ({
-  id,
-  title,
-  subtitle,
-  beats: [{ caption: 'Coming next.', ms: 4000 }],
-  Scene: Placeholder,
-});
 
 export const chapters: readonly Chapter[] = [
   scaleChapter,
@@ -21,7 +14,7 @@ export const chapters: readonly Chapter[] = [
   namesChapter,
   machineChapter,
   bindingChapter,
-  soon('shape', 'Change the shape, keep the logic', 'Same rule, new data flow'),
-  soon('fuzz', 'Prove it', 'Differential fuzzing across two systems'),
+  shapeChapter,
+  fuzzChapter,
   tryChapter,
 ];
