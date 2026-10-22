@@ -34,8 +34,9 @@ For a human exercise, open the named file in VS Code and make the change. For an
 
 The separate [Java reflection lab](reflection-lab/README.md) walks through
 declared fields, runtime rule discovery, and recording calls with a dynamic
-proxy. The starter implementation compiles; use `-Plab=solution` to run the
-reference solutions.
+proxy, then adds ASM bytecode inspection/rewriting and Byte Buddy getter and
+traffic instrumentation. The starter implementation compiles; use
+`-Plab=solution` to run the reference solutions.
 
 ### 1. Catch a mistaken AI binding
 - **Goal:** Find an employment code mapped to the wrong modern value.

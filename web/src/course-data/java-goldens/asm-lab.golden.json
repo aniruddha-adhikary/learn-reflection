@@ -1,0 +1,24 @@
+{
+  "memberRefs": [
+    "INVOKESPECIAL java/lang/Object.<init> ()V",
+    "INVOKEVIRTUAL legacy/model/LoanApplication.getApplicant ()Llegacy/model/Applicant;",
+    "INVOKEVIRTUAL legacy/model/Applicant.getCredScr ()I",
+    "INVOKEVIRTUAL legacy/model/Decision.addCode (Ljava/lang/String;)V"
+  ],
+  "rewrittenCodes": ["DECLINE_LOW_SCORE"],
+  "getterNames": ["getCredScr"],
+  "traffic": [
+    "A-1001 [APPROVE_FAST_TRACK, BAND_A]",
+    "A-1002 [DECLINE_LOW_SCORE, BAND_C]",
+    "A-1003 [DECLINE_DTI, REFER_SELF_EMPLOYED, BAND_C]",
+    "A-1004 [REFER_UNEMPLOYED, BAND_B]",
+    "A-1005 [REFER_COSIGNER, BAND_A]",
+    "A-1006 [REFER_SANCTIONS_CHECK, BAND_A]",
+    "A-1007 ERROR ArithmeticException: / by zero",
+    "A-1008 [REFER_RETIRED_TERM, BAND_B]",
+    "A-1009 ERROR NullPointerException: Cannot invoke \"Object.equals(Object)\" because \"o\" is null",
+    "A-1010 [APPROVE_FAST_TRACK, BAND_A]",
+    "A-1011 [DECLINE_TERM, REFER_SELF_EMPLOYED, BAND_C]",
+    "A-1012 [BAND_B]"
+  ]
+}

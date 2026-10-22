@@ -1,5 +1,13 @@
 export { ClassFormatError } from './classfile/errors';
 export { parseClassFile } from './classfile/parse';
+export { writeClassFile } from './classfile/write';
+export { redirectPair } from './bytecode/rewrite';
+export type {
+  BytecodePatch,
+  MethodReference,
+  RedirectPairResult,
+  RedirectPairSpec,
+} from './bytecode/rewrite';
 export {
   parseFieldDescriptor,
   parseMethodDescriptor,
@@ -48,8 +56,11 @@ export type {
   JObject,
   JString,
   JvmOptions,
+  JvmNative,
   JvmReference,
   JvmValue,
+  InvokeEvent,
+  ReturnEvent,
   RunResult,
   StepEvent,
 } from './runtime/types';

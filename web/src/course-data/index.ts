@@ -3,6 +3,7 @@ import mistakenBindingsText from './data/bindings.ai-mistake.json?raw';
 import bureauScoresText from './data/bureau/scores.json?raw';
 import csvText from './data/sftp/inbox/applications_20041015.csv?raw';
 import dataflowGoldenText from './java-goldens/dataflow.golden.json?raw';
+import asmLabGoldenText from './java-goldens/asm-lab.golden.json?raw';
 import evidenceAiGoldenText from './java-goldens/evidence.ai.golden.json?raw';
 import evidenceMistakeGoldenText from './java-goldens/evidence.mistake.golden.json?raw';
 import factsGoldenText from './java-goldens/facts.golden.json?raw';
@@ -68,6 +69,7 @@ export const courseData = {
 } as const;
 
 export const courseGoldens = {
+  asmLab: parseJson(asmLabGoldenText),
   facts: parseJson(factsGoldenText),
   dataflow: parseJson(dataflowGoldenText),
   rules: parseJson(rulesGoldenText),

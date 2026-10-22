@@ -17,6 +17,7 @@ export function parseClassFile(bytes: Uint8Array): ClassFile {
   const minorVersion = reader.u2();
   const majorVersion = reader.u2();
   const constantPool = readConstantPool(reader);
+  const constantPoolEnd = reader.offset;
   const cp = createPoolAccess(constantPool, reader);
 
   const accessFlags = reader.u2();
@@ -33,6 +34,11 @@ export function parseClassFile(bytes: Uint8Array): ClassFile {
     minorVersion,
     majorVersion,
     constantPool,
+    raw: {
+      originalBytes: bytes.slice(),
+      constantPoolEnd,
+      originalConstantPool: constantPool,
+    },
     accessFlags,
     thisClass,
     superClass,
@@ -274,7 +280,9 @@ function readAttribute(name: string, reader: Reader, cp: PoolAccess): AttributeI
     case 'Code': {
       const maxStack = reader.u2();
       const maxLocals = reader.u2();
-      const code = reader.take(reader.u4());
+      const codeLength = reader.u4();
+      const codeOffset = reader.offset;
+      const code = reader.take(codeLength);
       const exceptionTable = readArray(reader, () => ({
         startPc: reader.u2(),
         endPc: reader.u2(),
@@ -282,7 +290,16 @@ function readAttribute(name: string, reader: Reader, cp: PoolAccess): AttributeI
         catchType: cp.optionalClassName(reader.u2()),
       }));
       const attributes = readAttributes(reader, cp);
-      return { kind: 'code', maxStack, maxLocals, code, exceptionTable, attributes };
+      return {
+        kind: 'code',
+        maxStack,
+        maxLocals,
+        code,
+        codeOffset,
+        originalCodeLength: codeLength,
+        exceptionTable,
+        attributes,
+      };
     }
     case 'LineNumberTable':
       return {
