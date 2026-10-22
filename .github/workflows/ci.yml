@@ -39,7 +39,11 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - run: ./gradlew build
+      - run: ./gradlew build -x :reflection-lab:test
+        working-directory: playground
+      - run: ./gradlew :reflection-lab:test -Plab=solution
+        working-directory: playground
+      - run: ./gradlew :reflection-lab:compileJava
         working-directory: playground
       - run: ./gradlew :porter:run --args=all
         working-directory: playground

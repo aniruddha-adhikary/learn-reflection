@@ -30,6 +30,13 @@ The legacy command reads `data/sftp/inbox/` and writes one result CSV per input 
 
 For a human exercise, open the named file in VS Code and make the change. For an AI exercise, paste the prompt into Claude Code, Codex, Devin, or another coding agent. In both cases, run the listed command and compare the result.
 
+### Java reflection lab
+
+The separate [Java reflection lab](reflection-lab/README.md) walks through
+declared fields, runtime rule discovery, and recording calls with a dynamic
+proxy. The starter implementation compiles; use `-Plab=solution` to run the
+reference solutions.
+
 ### 1. Catch a mistaken AI binding
 - **Goal:** Find an employment code mapped to the wrong modern value.
 - **File:** `data/bindings.ai-mistake.json`
