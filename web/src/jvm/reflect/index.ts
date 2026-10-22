@@ -66,6 +66,16 @@ export class ReflectClass {
         }
       }
     }
+    if (this.classFile.superClass === 'java/lang/Enum') {
+      const enumMethod: MemberInfo = {
+        accessFlags: 0x0001,
+        name: 'getDeclaringClass',
+        descriptor: '()Ljava/lang/Class;',
+        attributes: [],
+      };
+      const key = `${enumMethod.name}${enumMethod.descriptor}`;
+      if (!found.has(key)) found.set(key, new ReflectMethod(this, enumMethod, this.reflection.jvm));
+    }
     return [...found.values()];
   }
 

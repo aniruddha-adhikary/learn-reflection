@@ -1,0 +1,24 @@
+{
+  "id": "A-1004",
+  "applicant": {
+    "applicantId": "P-1004",
+    "fullName": "Sam Rivera",
+    "income": {
+      "annual": 30000,
+      "currency": "USD"
+    },
+    "employment": "UNEMPLOYED",
+    "debts": {
+      "monthlyTotal": 300
+    },
+    "residence": {
+      "countryCode": "US"
+    }
+  },
+  "request": {
+    "principal": 15000,
+    "termMonths": 36,
+    "secured": false
+  },
+  "guarantors": []
+}

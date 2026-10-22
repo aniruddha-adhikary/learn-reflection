@@ -1,0 +1,24 @@
+{
+  "id": "A-1002",
+  "applicant": {
+    "applicantId": "P-1002",
+    "fullName": "Tom Okafor",
+    "income": {
+      "annual": 42000,
+      "currency": "USD"
+    },
+    "employment": "EMPLOYED",
+    "debts": {
+      "monthlyTotal": 900
+    },
+    "residence": {
+      "countryCode": "US"
+    }
+  },
+  "request": {
+    "principal": 120000,
+    "termMonths": 240,
+    "secured": false
+  },
+  "guarantors": []
+}

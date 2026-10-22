@@ -1,0 +1,64 @@
+[ {
+  "legacyField" : "legacy.model.Applicant#creditScore",
+  "status" : "CONFIRMED",
+  "matches" : 12,
+  "total" : 12,
+  "firstRecordId" : "",
+  "reason" : ""
+}, {
+  "legacyField" : "legacy.model.Applicant#annualIncome",
+  "status" : "CONFIRMED",
+  "matches" : 12,
+  "total" : 12,
+  "firstRecordId" : "",
+  "reason" : ""
+}, {
+  "legacyField" : "legacy.model.Applicant#monthlyDebt",
+  "status" : "CONFIRMED",
+  "matches" : 12,
+  "total" : 12,
+  "firstRecordId" : "",
+  "reason" : ""
+}, {
+  "legacyField" : "legacy.model.Applicant#empStat",
+  "status" : "REJECTED",
+  "matches" : 10,
+  "total" : 12,
+  "firstRecordId" : "A-1003",
+  "reason" : "S != EMPLOYED; value map is not injective"
+}, {
+  "legacyField" : "legacy.model.Applicant#country",
+  "status" : "CONFIRMED",
+  "matches" : 12,
+  "total" : 12,
+  "firstRecordId" : "",
+  "reason" : ""
+}, {
+  "legacyField" : "legacy.model.LoanApplication#amount",
+  "status" : "CONFIRMED",
+  "matches" : 12,
+  "total" : 12,
+  "firstRecordId" : "",
+  "reason" : ""
+}, {
+  "legacyField" : "legacy.model.LoanApplication#termMonths",
+  "status" : "CONFIRMED",
+  "matches" : 12,
+  "total" : 12,
+  "firstRecordId" : "",
+  "reason" : ""
+}, {
+  "legacyField" : "legacy.model.LoanApplication#collateral",
+  "status" : "CONFIRMED",
+  "matches" : 12,
+  "total" : 12,
+  "firstRecordId" : "",
+  "reason" : ""
+}, {
+  "legacyField" : "legacy.model.LoanApplication#coSigners",
+  "status" : "CONFIRMED",
+  "matches" : 12,
+  "total" : 12,
+  "firstRecordId" : "",
+  "reason" : ""
+} ]

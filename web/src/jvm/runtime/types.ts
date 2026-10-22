@@ -26,7 +26,7 @@ export interface StepEvent {
   readonly descriptor: string;
   readonly pc: number;
   readonly insnIndex: number;
-  readonly locals: readonly (JvmValue | null)[];
+  readonly locals: readonly (JvmValue | undefined)[];
   readonly stack: readonly JvmValue[];
   readonly depth: number;
 }

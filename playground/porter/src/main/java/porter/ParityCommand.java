@@ -117,8 +117,7 @@ public final class ParityCommand {
     public static InertResult inert() throws Exception {
         List<ConditionRule> rules = new ArrayList<ConditionRule>();
         for (RuleJson.RuleRecord record : RuleJson.readRecords(Path.of("out/rules.json"))) {
-            if (!record.legacyRule().startsWith("R01") && !record.legacyRule().startsWith("R06")
-                    && !record.legacyRule().startsWith("R08") && !record.legacyRule().startsWith("R10"))
+            if (!readsMetric(record.when(), "credit.score"))
                 rules.add(record.conditionRule());
         }
         LoanEvent event = JSON.readValue(Path.of("data/s3/events/A-1001.json").toFile(), LoanEvent.class);
@@ -133,6 +132,25 @@ public final class ParityCommand {
             if (!expected.getMessage().startsWith("inert:")) throw expected;
             return new InertResult(true, true, expected.getMessage());
         }
+    }
+
+    private static boolean readsMetric(Expr expression, String metricId) {
+        if (expression instanceof Read value) return metricId.equals(value.metricId());
+        if (expression instanceof Arith value)
+            return readsMetric(value.left(), metricId) || readsMetric(value.right(), metricId);
+        if (expression instanceof Compare value)
+            return readsMetric(value.left(), metricId) || readsMetric(value.right(), metricId);
+        if (expression instanceof Equals value)
+            return readsMetric(value.left(), metricId) || readsMetric(value.right(), metricId);
+        if (expression instanceof InSet value) return readsMetric(value.value(), metricId);
+        if (expression instanceof Not value) return readsMetric(value.value(), metricId);
+        if (expression instanceof IsTrue value) return readsMetric(value.value(), metricId);
+        if (expression instanceof IsFalse value) return readsMetric(value.value(), metricId);
+        if (expression instanceof And value)
+            return value.values().stream().anyMatch(child -> readsMetric(child, metricId));
+        if (expression instanceof Or value)
+            return value.values().stream().anyMatch(child -> readsMetric(child, metricId));
+        return false;
     }
 
     private static void mapEmployment(LoanEvent event, String legacyValue, JsonNode binding) {
