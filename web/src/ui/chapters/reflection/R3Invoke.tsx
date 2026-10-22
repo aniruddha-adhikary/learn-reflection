@@ -95,7 +95,7 @@ function Scene({ beat, engineer }: SceneProps) {
   }
   const shown = CALLS_BY_BEAT[beat] ?? 0;
   return (
-    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '1fr 360px', gap: 20, alignContent: 'safe center' }}>
+    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 360px', gap: 20, alignContent: 'safe center' }}>
       <div style={{ display: 'grid', gap: 10, alignContent: 'start' }}>
         {calls.slice(0, shown).map((c, i) => <Call key={i} call={c} i={i} latest={i >= (CALLS_BY_BEAT[beat - 1] ?? 0)} />)}
       </div>

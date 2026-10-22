@@ -58,7 +58,7 @@ function Scene({ beat, engineer }: SceneProps) {
   return (
     <div style={{ height: '100%', display: 'grid', gap: 14, alignContent: 'safe center' }}>
       {beat === 0 ? (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 18 }}>
           <Panel title="Get the lab" color={AMBER}>
             <Code>{setup}</Code>
             <button className="pill" style={{ cursor: 'pointer', justifySelf: 'start' }} onClick={() => copy(setup, 'setup')}>{copied === 'setup' ? 'Copied' : 'Copy commands'}</button>

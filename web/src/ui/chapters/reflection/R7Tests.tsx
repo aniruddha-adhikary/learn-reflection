@@ -52,7 +52,7 @@ function Scene({ beat, engineer }: SceneProps) {
           <Note>{String(result.data.cases)} cases in total, each run through the old Java rule and the new generated rule. Seeded, so every run produces the same cases.</Note>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 18 }}>
           <Panel key={rule} title={`What ${rule} reads (reflection gives the type)`} color={AMBER}>
             {Object.entries(domain.fields).map(([key, values], i) => (
               <motion.div key={key} initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.15 * i }} style={{ display: 'grid', gap: 2 }}>

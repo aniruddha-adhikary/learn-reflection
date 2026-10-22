@@ -58,7 +58,7 @@ function Scene({ beat, engineer }: SceneProps) {
           ))}
         </div>
       )}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 18 }}>
         <div style={{ display: 'grid', gap: 10, alignContent: 'start' }}>
           <Code>{beat === 1 ? `c.getFields()          // public only, inherited too\n→ ${String(view.fields.length)} fields` : `Field[] fs = c.getDeclaredFields();   // all, even private\n→ ${String(view.declaredFields.length)} fields`}</Code>
           <Panel key={`${name}-${String(beat === 1)}`} title={beat === 1 ? 'getFields()' : 'getDeclaredFields()'} color={AMBER}>
