@@ -29,7 +29,7 @@ export type ProxyHandler = (
   args: readonly JvmValue[],
 ) => JvmValue;
 
-class JavaThrown extends Error {
+export class JavaThrown extends Error {
   public constructor(public readonly object: JObject, message: string) {
     super(message);
     this.name = 'JavaThrown';
