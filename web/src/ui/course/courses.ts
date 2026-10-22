@@ -20,9 +20,9 @@ export const courses: readonly Course[] = [
   },
   {
     id: 'reflection',
-    title: 'Reflection in Java: deep dive',
+    title: 'Reflection, ASM and ByteBuddy: deep dive',
     audience: 'Engineers',
-    blurb: 'Explore Java reflection step by step, from class metadata to dynamic proxies and practical tooling.',
+    blurb: 'Reflection to see what a class has, ASM to read and rewrite what it does, ByteBuddy to watch it run. All live, on the same legacy classes.',
     chapters: reflectionChapters,
   },
 ];
