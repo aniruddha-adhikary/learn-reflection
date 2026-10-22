@@ -1,8 +1,13 @@
 import { decode, Jvm, parseClassFile, type ClassFile, type Instruction, type JvmValue } from '../jvm';
-import { redirectPair, type RedirectPairSpec } from '../jvm/bytecode/rewrite';
+import {
+  NoMatchingPairError,
+  StackEffectMismatchError,
+  redirectPair,
+  type RedirectPairSpec,
+} from '../jvm/bytecode/rewrite';
 import { courseData } from '../course-data';
 import { applicationFromCsv, courseRecordByAppId } from './evidence';
-import { parseClasses, type ClassBytes } from './common';
+import { csvAppIds, parseClasses, type ClassBytes } from './common';
 
 const defaultSpec: RedirectPairSpec = {
   from: [
@@ -29,7 +34,18 @@ export type VisitEvent =
 
 export interface MethodMemberRefs {
   readonly method: string;
-  readonly refs: readonly string[];
+  readonly refs: readonly MemberInstructionRef[];
+}
+
+export interface MemberRef {
+  readonly owner: string;
+  readonly name: string;
+  readonly descriptor: string;
+}
+
+export interface MemberInstructionRef extends MemberRef {
+  readonly opcode: string;
+  readonly text: string;
 }
 
 export interface BridgeCall {
@@ -113,11 +129,19 @@ export function memberRefs(className: string, bytes?: ClassBytes): readonly Meth
   return classFile.methods.map((method) => {
     const code = method.attributes.find((attribute) => attribute.kind === 'code');
     if (code?.kind !== 'code') return { method: `${method.name}${method.descriptor}`, refs: [] };
-    const refs = decode(code.code, classFile.constantPool).flatMap((instruction) => {
+    const refs = decode(code.code, classFile.constantPool).flatMap((instruction): MemberInstructionRef[] => {
       const constant = instruction.operands.find((operand) => operand.kind === 'constant');
       if (constant?.kind !== 'constant') return [];
       if (constant.constant.kind !== 'fieldRef' && constant.constant.kind !== 'methodRef') return [];
-      return [`${instruction.mnemonic.toUpperCase()} ${constant.constant.owner}.${constant.constant.name} ${constant.constant.descriptor}`];
+      const opcode = instruction.mnemonic.toUpperCase();
+      const { owner, name, descriptor } = constant.constant;
+      return [{
+        opcode,
+        owner,
+        name,
+        descriptor,
+        text: `${opcode} ${owner}.${name} ${descriptor}`,
+      }];
     });
     return { method: `${method.name}${method.descriptor}`, refs };
   });
@@ -140,7 +164,7 @@ export function rewriteLab(
     try {
       result = redirectPair(classFile, target);
     } catch (error) {
-      if (error instanceof Error && error.message.startsWith('No matching invocation pair')) {
+      if (error instanceof NoMatchingPairError) {
         untouched.push(simpleName(className));
         continue;
       }
@@ -150,12 +174,12 @@ export function rewriteLab(
     const modified = new Map(original);
     modified.set(className, parsedRewritten);
     const applicants: RewriteApplicantResult[] = [];
-    for (const row of csvAppIds(data.csv)) {
-      const originalCodes = executeRule(original, className, row.appId, data);
+    for (const { appId } of csvAppIds(data.csv)) {
+      const originalCodes = executeRule(original, className, appId, data);
       const bridgeCalls: BridgeCall[] = [];
-      const rewrittenCodes = executeRule(modified, className, row.appId, data, (jvm) => {
+      const rewrittenCodes = executeRule(modified, className, appId, data, (jvm) => {
         jvm.defineNative(target.to.owner, target.to.name, target.to.descriptor, (_receiver, args) => {
-          const application = required(args[0], `Missing bridge application for ${row.appId}`);
+          const application = required(args[0], `Missing bridge application for ${appId}`);
           const appIdValue = jvm.invokeMethod(
             'legacy/model/LoanApplication',
             'getAppId',
@@ -163,17 +187,17 @@ export function rewriteLab(
             application,
             [],
           );
-          const appId = stringValue(appIdValue);
-          const event = data.events.find((candidate) => candidate.id === appId);
-          if (!event) throw new Error(`Missing course event for ${appId}`);
+          const resolvedAppId = stringValue(appIdValue);
+          const event = data.events.find((candidate) => candidate.id === resolvedAppId);
+          if (!event) throw new Error(`Missing course event for ${resolvedAppId}`);
           const score = data.bureauScores[event.applicant.applicantId];
           if (score === undefined) throw new Error(`Missing bureau score for ${event.applicant.applicantId}`);
-          bridgeCalls.push({ appId, applicantId: event.applicant.applicantId, score });
+          bridgeCalls.push({ appId: resolvedAppId, applicantId: event.applicant.applicantId, score });
           return score;
         });
       });
       applicants.push({
-        appId: row.appId,
+        appId,
         originalCodes,
         rewrittenCodes,
         agree: equalStrings(originalCodes, rewrittenCodes),
@@ -192,7 +216,8 @@ export function badTargetDescriptorMessage(): string {
       to: { ...defaultSpec.to, descriptor: '(Llegacy/model/LoanApplication;)J' },
     });
   } catch (error) {
-    return error instanceof Error ? error.message : String(error);
+    if (error instanceof StackEffectMismatchError) return error.message;
+    throw error;
   }
   throw new Error('Expected long-returning bridge descriptor to be rejected');
 }
@@ -217,19 +242,6 @@ function executeRule(
   jvm.invokeMethod('legacy/model/Decision', '<init>', '()V', decision, []);
   jvm.invokeMethod(className, 'execute', executeDescriptor, rule, [application, decision]);
   return readStringList(jvm, jvm.invokeMethod('legacy/model/Decision', 'getCodes', '()Ljava/util/List;', decision, []));
-}
-
-function csvAppIds(csv: string): readonly { readonly appId: string }[] {
-  const lines = csv.split(/\r?\n/).filter((line) => line.length > 0);
-  const header = lines[0]?.split(',');
-  if (!header) throw new Error('Course CSV has no header');
-  const index = header.indexOf('APP_ID');
-  if (index < 0) throw new Error('Course CSV has no APP_ID column');
-  return lines.slice(1).map((line) => {
-    const appId = line.split(',')[index];
-    if (!appId) throw new Error(`Missing APP_ID in CSV row ${line}`);
-    return { appId };
-  });
 }
 
 function eventName(instruction: Instruction): InstructionEventName {

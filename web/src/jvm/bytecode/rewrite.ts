@@ -26,6 +26,27 @@ export interface RedirectPairResult {
   readonly patches: readonly BytecodePatch[];
 }
 
+export class NoMatchingPairError extends Error {
+  public constructor(className: string) {
+    super(`No matching invocation pair in ${className}`);
+    this.name = 'NoMatchingPairError';
+  }
+}
+
+export class StackEffectMismatchError extends Error {
+  public constructor(message: string) {
+    super(message);
+    this.name = 'StackEffectMismatchError';
+  }
+}
+
+export class ControlBoundaryError extends Error {
+  public constructor(message: string) {
+    super(message);
+    this.name = 'ControlBoundaryError';
+  }
+}
+
 export function redirectPair(classFile: ClassFile, spec: RedirectPairSpec): RedirectPairResult {
   const fromDescriptor = parseMethodDescriptor(spec.from[0].descriptor);
   const secondDescriptor = parseMethodDescriptor(spec.from[1].descriptor);
@@ -40,12 +61,12 @@ export function redirectPair(classFile: ClassFile, spec: RedirectPairSpec): Redi
     targetDescriptor.parameters.map(descriptorOf).join(',') !== expectedParameters.join(',') ||
     descriptorOf(targetDescriptor.returnType) !== expectedResult
   ) {
-    throw new Error(
+    throw new StackEffectMismatchError(
       `Stack-effect mismatch: target ${spec.to.descriptor} must consume (${expectedParameters.join('')}) and return ${expectedResult}`,
     );
   }
   if (fromDescriptor.returnType.kind !== 'object' || fromDescriptor.returnType.internalName !== spec.from[1].owner) {
-    throw new Error(
+    throw new StackEffectMismatchError(
       `Stack-effect mismatch: first method returns ${descriptorOf(fromDescriptor.returnType)}, but second receiver is ${spec.from[1].owner}`,
     );
   }
@@ -87,7 +108,7 @@ export function redirectPair(classFile: ClassFile, spec: RedirectPairSpec): Redi
       ),
     };
   });
-  if (patches.length === 0) throw new Error(`No matching invocation pair in ${classFile.thisClass}`);
+  if (patches.length === 0) throw new NoMatchingPairError(classFile.thisClass);
   const updated: ClassFile = {
     ...classFile,
     constantPool: pool.entries,
@@ -116,19 +137,23 @@ function rejectControlBoundary(
   for (const instruction of instructions) {
     for (const operand of instruction.operands) {
       if (operand.kind === 'branchTarget' && operand.target === secondOffset) {
-        throw new Error(`Cannot rewrite ${method.name}${method.descriptor}: branch targets second invocation at pc ${secondOffset}`);
+        throw new ControlBoundaryError(
+          `Cannot rewrite ${method.name}${method.descriptor}: branch targets second invocation at pc ${secondOffset}`,
+        );
       }
       if (operand.kind === 'switch') {
         const targets = [operand.defaultTarget, ...operand.cases.map((entry) => entry.target)];
         if (targets.includes(secondOffset)) {
-          throw new Error(`Cannot rewrite ${method.name}${method.descriptor}: switch targets second invocation at pc ${secondOffset}`);
+          throw new ControlBoundaryError(
+            `Cannot rewrite ${method.name}${method.descriptor}: switch targets second invocation at pc ${secondOffset}`,
+          );
         }
       }
     }
   }
   for (const handler of code.exceptionTable) {
     if ([handler.startPc, handler.endPc, handler.handlerPc].includes(secondOffset)) {
-      throw new Error(
+      throw new ControlBoundaryError(
         `Cannot rewrite ${method.name}${method.descriptor}: exception-handler boundary at second invocation pc ${secondOffset}`,
       );
     }

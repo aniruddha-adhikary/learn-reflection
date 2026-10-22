@@ -29,6 +29,8 @@ export {
   rewriteLab,
   visitEvents,
   type BridgeCall,
+  type MemberInstructionRef,
+  type MemberRef,
   type MethodMemberRefs,
   type RewriteApplicantResult,
   type RewriteLabResult,
@@ -62,4 +64,5 @@ export {
   type RowBuild,
 } from './reflect-lab';
 export { JavaRandom, javaStringHash } from './java-random';
+export { csvRows } from './common';
 export type { ClassBytes, ParsedClasses } from './common';
