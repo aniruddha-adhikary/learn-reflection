@@ -65,7 +65,7 @@ function Scene({ beat, engineer }: SceneProps) {
   }
 
   return (
-    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20, alignContent: 'safe center' }}>
+    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 20, alignContent: 'safe center' }}>
       <Panel title="What reflection sees" color={CYAN}>
         <Code>{`Method m = c.getMethod("getIncome");\n${signature.modifiers.join(' ')} ${short(signature.returnType)} getIncome()`}</Code>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="mono" style={{ border: '2px dashed #2a3358', borderRadius: 10, padding: 18, textAlign: 'center', color: 'var(--muted)', fontSize: 22 }}>

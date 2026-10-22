@@ -85,7 +85,7 @@ function Tripwire({ engineer }: { engineer: boolean }) {
   const result = useMemo(() => inert(), []);
   const { lazy, prefetch } = result.data;
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+    <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 16 }}>
       <Panel title="Lazy engine, tripwire on credit.score" color={lazy.status === 'PASS' ? GREEN : RED}>
         <div className={`pill ${lazy.status === 'PASS' ? 'ok' : 'bad'}`} style={{ justifySelf: 'start' }}>{lazy.status}</div>
         <Note>Only reads a metric when a rule needs it. Rules that don&apos;t need the bureau never touch it.</Note>
@@ -107,7 +107,7 @@ function Scene({ beat, engineer }: SceneProps) {
   return (
     <div style={{ height: '100%', display: 'grid', gap: 16, alignContent: 'safe center' }}>
       {beat === 0 && (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 18 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: 18 }}>
           <Panel title={`interface ${short(RULE)}`} color={AMBER}>
             {rule.declaredMethods.map((m) => (
               <div key={m.name} className="mono" style={{ fontSize: 14 }}>{short(m.returnType)} {m.name}({m.parameterTypes.map(short).join(', ')})</div>

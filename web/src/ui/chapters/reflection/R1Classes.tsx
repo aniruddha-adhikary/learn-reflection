@@ -45,7 +45,7 @@ function Scene({ beat, engineer }: SceneProps) {
   const scanning = beat >= 2;
 
   return (
-    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: beat >= 1 ? '1fr 380px' : '1fr', gap: 20, alignContent: 'safe center' }}>
+    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: beat >= 1 ? 'minmax(0, 1fr) 340px' : 'minmax(0, 1fr)', gap: 20, alignContent: 'safe center' }}>
       <div style={{ display: 'grid', gap: 12, alignContent: 'start' }}>
         {beat === 0 && <Code>{'// every loaded class has exactly one Class object\nClass<?> c = applicant.getClass();   // or Applicant.class'}</Code>}
         {beat === 1 && <Code>{`Class<?> c = Class.forName("${START}");`}</Code>}
@@ -96,7 +96,7 @@ function Scene({ beat, engineer }: SceneProps) {
       {beat >= 1 && (
         <div style={{ display: 'grid', gap: 12, alignContent: 'start' }}>
           {beat >= 3 && (
-            <select value={picked} onChange={(e) => setPicked(e.target.value)} className="mono" aria-label="Class" style={{ padding: 6, background: '#0b1022', color: '#e8ecff', border: '1px solid #2a3358', borderRadius: 8 }}>
+            <select value={picked} onChange={(e) => setPicked(e.target.value)} className="mono" aria-label="Class" style={{ width: '100%', padding: 6, background: '#0b1022', color: '#e8ecff', border: '1px solid #2a3358', borderRadius: 8 }}>
               {names.map((n) => <option key={n} value={n}>{n}</option>)}
             </select>
           )}

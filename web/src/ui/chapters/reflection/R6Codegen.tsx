@@ -20,7 +20,7 @@ function Scene({ beat, engineer }: SceneProps) {
 
   if (beat === 0) {
     return (
-      <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '240px 1fr', gap: 20, alignContent: 'safe center' }}>
+      <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '240px minmax(0, 1fr)', gap: 20, alignContent: 'safe center' }}>
         <Panel title="Found by reflection" color={AMBER}>
           {legacyRules.map((r, i) => (
             <motion.div key={r} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.08 * i }} className="mono" style={{ fontSize: 13 }}>{r}</motion.div>
@@ -46,7 +46,7 @@ function Scene({ beat, engineer }: SceneProps) {
   }
 
   return (
-    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '280px 1fr', gap: 20, alignContent: 'safe center' }}>
+    <div style={{ height: '100%', display: 'grid', gridTemplateColumns: '280px minmax(0, 1fr)', gap: 20, alignContent: 'safe center' }}>
       <div style={{ display: 'grid', gap: 6, alignContent: 'start' }}>
         {result.rules.map((r) => (
           <button key={r.ruleId} className={`pill mono ${r.ruleId === pick ? 'ok' : ''}`} style={{ cursor: beat >= 2 ? 'pointer' : 'default', justifySelf: 'start' }} disabled={beat < 2 && r.ruleId !== pick} onClick={() => setPick(r.ruleId)}>
