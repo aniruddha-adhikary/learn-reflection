@@ -68,8 +68,14 @@ try {
   );
 
   const dataTarget = path.join(courseData, 'data');
+  const dataSource = path.join(repoRoot, 'playground', 'data');
   rmSync(dataTarget, { recursive: true, force: true });
-  cpSync(path.join(repoRoot, 'playground', 'data'), dataTarget, { recursive: true });
+  for (const relativePath of ['sftp/inbox', 's3', 'bureau']) {
+    cpSync(path.join(dataSource, relativePath), path.join(dataTarget, relativePath), { recursive: true });
+  }
+  for (const bindingFile of readdirSync(dataSource).filter((file) => /^bindings.*\.json$/.test(file)).sort()) {
+    cpSync(path.join(dataSource, bindingFile), path.join(dataTarget, bindingFile));
+  }
 
   const goldensTarget = path.join(courseData, 'java-goldens');
   rmSync(goldensTarget, { recursive: true, force: true });
