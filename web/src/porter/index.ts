@@ -11,9 +11,37 @@ export {
 } from './dataflow';
 export { transform, transformFromParsed, type TransformResult, type RuleRecord } from './transform';
 export { evidence, type EvidenceResult, type EvidenceRow, type EvidenceTrace } from './evidence';
-export { fuzz, evaluateCondition, type FuzzResult, type FuzzData, type FuzzCaseTrace } from './fuzz';
+export {
+  fuzz,
+  evaluateCondition,
+  modernOutcome,
+  type FuzzResult,
+  type FuzzData,
+  type FuzzCaseTrace,
+  type Outcome,
+} from './fuzz';
 export { inert, type InertResult } from './inert';
 export { ruleSteps, type RuleRun, type RuleStep } from './steps';
+export {
+  badTargetDescriptorMessage,
+  defaultRewriteTarget,
+  memberRefs,
+  rewriteLab,
+  visitEvents,
+  type BridgeCall,
+  type MethodMemberRefs,
+  type RewriteApplicantResult,
+  type RewriteLabResult,
+  type RewrittenRule,
+  type VisitEvent,
+} from './asm-lab';
+export {
+  getterRecorder,
+  recordReplay,
+  type GetterRecord,
+  type RecordedApplicant,
+  type RecordReplayResult,
+} from './instrument-lab';
 export {
   APPLICANT_COLUMNS,
   buildFromRow,

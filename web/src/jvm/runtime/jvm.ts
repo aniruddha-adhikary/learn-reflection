@@ -12,6 +12,7 @@ import type {
   JObject,
   JString,
   JvmOptions,
+  JvmNative,
   JvmValue,
   RunResult,
   StepEvent,
@@ -22,7 +23,7 @@ interface RuntimeSlot {
   readonly size: 1 | 2;
 }
 
-type NativeFunction = (receiver: JvmValue, args: readonly JvmValue[]) => JvmValue;
+type NativeFunction = JvmNative;
 export type ProxyHandler = (
   proxy: JObject,
   method: { readonly owner: string; readonly name: string; readonly descriptor: string },
@@ -122,6 +123,10 @@ export class Jvm {
     this.proxies.set(proxy, handler);
   }
 
+  public defineNative(owner: string, name: string, descriptor: string, native: JvmNative): void {
+    this.register(owner, name, descriptor, native);
+  }
+
   public throwException(className: string, message: string): never {
     this.throwJava(className, message);
   }
@@ -169,6 +174,39 @@ export class Jvm {
   }
 
   private invoke(
+    owner: string,
+    name: string,
+    descriptor: string,
+    args: readonly JvmValue[],
+    receiver: JvmValue,
+    depth: number,
+    initialize: boolean,
+  ): JvmValue {
+    const event = {
+      owner,
+      name,
+      descriptor,
+      args: args.map((arg) => this.normalizeInput(arg)),
+      depth,
+    };
+    this.options.onInvoke?.(event);
+    let result: JvmValue;
+    try {
+      result = this.invokeImpl(owner, name, descriptor, args, receiver, depth, initialize);
+    } catch (error) {
+      this.options.onReturn?.({
+        ...event,
+        thrown: error instanceof JavaThrown
+          ? `${error.object.cls}: ${error.message}`
+          : error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
+    this.options.onReturn?.({ ...event, result });
+    return result;
+  }
+
+  private invokeImpl(
     owner: string,
     name: string,
     descriptor: string,

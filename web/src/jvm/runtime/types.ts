@@ -34,7 +34,25 @@ export interface StepEvent {
 export interface JvmOptions {
   readonly stepBudget?: number;
   readonly onStep?: (event: StepEvent) => void;
+  readonly onInvoke?: (event: InvokeEvent) => void;
+  readonly onReturn?: (event: ReturnEvent) => void;
 }
+
+export interface InvokeEvent {
+  readonly owner: string;
+  readonly name: string;
+  readonly descriptor: string;
+  readonly args: readonly JvmValue[];
+  readonly depth: number;
+}
+
+export type ReturnEvent = InvokeEvent &
+  (
+    | { readonly result: JvmValue; readonly thrown?: never }
+    | { readonly thrown: string; readonly result?: never }
+  );
+
+export type JvmNative = (receiver: JvmValue, args: readonly JvmValue[]) => JvmValue;
 
 export type RunResult =
   | { readonly result: JvmValue }
