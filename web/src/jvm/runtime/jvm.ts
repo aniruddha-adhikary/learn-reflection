@@ -182,6 +182,11 @@ export class Jvm {
     depth: number,
     initialize: boolean,
   ): JvmValue {
+    const onInvoke = this.options.onInvoke;
+    const onReturn = this.options.onReturn;
+    if (!onInvoke && !onReturn) {
+      return this.invokeImpl(owner, name, descriptor, args, receiver, depth, initialize);
+    }
     const event = {
       owner,
       name,
@@ -189,20 +194,20 @@ export class Jvm {
       args: args.map((arg) => this.normalizeInput(arg)),
       depth,
     };
-    this.options.onInvoke?.(event);
+    onInvoke?.(event);
     let result: JvmValue;
     try {
       result = this.invokeImpl(owner, name, descriptor, args, receiver, depth, initialize);
     } catch (error) {
-      this.options.onReturn?.({
-        ...event,
-        thrown: error instanceof JavaThrown
-          ? `${error.object.cls}: ${error.message}`
-          : error instanceof Error ? error.message : String(error),
-      });
+      if (error instanceof JavaThrown) {
+        onReturn?.({
+          ...event,
+          thrown: { cls: error.object.cls, message: error.message },
+        });
+      }
       throw error;
     }
-    this.options.onReturn?.({ ...event, result });
+    onReturn?.({ ...event, result });
     return result;
   }
 

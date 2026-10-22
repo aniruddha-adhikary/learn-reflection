@@ -46,10 +46,15 @@ export interface InvokeEvent {
   readonly depth: number;
 }
 
+export interface JavaThrownDetails {
+  readonly cls: string;
+  readonly message: string;
+}
+
 export type ReturnEvent = InvokeEvent &
   (
     | { readonly result: JvmValue; readonly thrown?: never }
-    | { readonly thrown: string; readonly result?: never }
+    | { readonly thrown: JavaThrownDetails; readonly result?: never }
   );
 
 export type JvmNative = (receiver: JvmValue, args: readonly JvmValue[]) => JvmValue;

@@ -21,3 +21,47 @@ export function methodOf(classFile: ClassFile, name: string, descriptor?: string
 export function courseSourceName(bindings: CourseBindings): string {
   return bindings === courseData.bindings.mistake ? 'data/bindings.ai-mistake.json' : 'data/bindings.ai.json';
 }
+
+export function csvRows(text: string): string[][] {
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let cell = '';
+  let quoted = false;
+  for (let index = 0; index < text.length; index += 1) {
+    const character = text[index];
+    if (character === undefined) continue;
+    if (character === '"') {
+      if (quoted && text[index + 1] === '"') {
+        cell += '"';
+        index += 1;
+      } else quoted = !quoted;
+    } else if (character === ',' && !quoted) {
+      row.push(cell);
+      cell = '';
+    } else if ((character === '\n' || character === '\r') && !quoted) {
+      if (character === '\r' && text[index + 1] === '\n') index += 1;
+      row.push(cell);
+      if (row.some((value) => value.length > 0)) rows.push(row);
+      row = [];
+      cell = '';
+    } else cell += character;
+  }
+  if (cell.length > 0 || row.length > 0) {
+    row.push(cell);
+    rows.push(row);
+  }
+  return rows;
+}
+
+export function csvAppIds(csv: string): readonly { readonly appId: string }[] {
+  const rows = csvRows(csv);
+  const header = rows[0];
+  if (!header) throw new Error('Course CSV has no header');
+  const index = header.indexOf('APP_ID');
+  if (index < 0) throw new Error('Course CSV has no APP_ID column');
+  return rows.slice(1).map((row, rowIndex) => {
+    const appId = row[index];
+    if (!appId) throw new Error(`Missing APP_ID in CSV row ${rowIndex + 2}`);
+    return { appId };
+  });
+}
