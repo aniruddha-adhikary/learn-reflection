@@ -37,7 +37,7 @@ export {
   type Source,
   type SourceValue,
 } from './analysis/sources';
-export { Jvm, type ProxyHandler } from './runtime/jvm';
+export { JavaThrown, Jvm, type ProxyHandler } from './runtime/jvm';
 export {
   StepBudgetExceeded,
   UnsupportedBytecode,
