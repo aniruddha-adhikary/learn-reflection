@@ -13,7 +13,7 @@ export function Landing() {
       >
         <div className="kicker">Interactive, offline courses</div>
         <h1>Modernize legacy systems by understanding what they do.</h1>
-        <p>Choose a course to explore the ideas or go deep on Java reflection.</p>
+        <p>Choose a course to explore the ideas or go deep on reflection, ASM and ByteBuddy.</p>
       </motion.header>
       <div className="course-grid">
         {courses.map((course, index) => {
